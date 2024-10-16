@@ -6,12 +6,18 @@ namespace WorxlyServer.Models
 {
     [Index(nameof(Username), IsUnique = true)]
     [Index(nameof(Email), IsUnique = true)]
+    [Table("Users")]
     public class User
     {
         [JsonIgnore]
         public int Id { get; set; }
         public required string Username { get; set; }
         public required string Email { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? ProfilePicture { get; set; }
+        [JsonIgnore]
+        public Address? Address { get; set; }
         public string? Phone { get; set; }
         [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
