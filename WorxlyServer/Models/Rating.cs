@@ -12,5 +12,7 @@ namespace WorxlyServer.Models
         public required User User { get; set; }
         public required int RatingValue { get; set; }
         public string? Comment { get; set; }
+        [JsonIgnore]
+        public DateTime? WhenDeleted { get; set; }
     }
 }

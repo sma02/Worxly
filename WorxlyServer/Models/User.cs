@@ -24,5 +24,7 @@ namespace WorxlyServer.Models
         public required string Password { get; set; }
         [JsonIgnore]
         public string? PasswordHash { get; set; }
+        [JsonIgnore]
+        public DateTime? WhenDeleted { get; set; }
     }
 }

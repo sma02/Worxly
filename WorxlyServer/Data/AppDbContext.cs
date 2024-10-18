@@ -7,6 +7,9 @@ namespace WorxlyServer.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Worker> Workers { get; set; }
+        public DbSet<WorkerCategory> Categories{ get; set; }
+        public DbSet<Chat> Chats{ get; set; }
+        public DbSet<ChatMessage> ChatMessages{ get; set; }
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }

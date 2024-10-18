@@ -13,5 +13,7 @@ namespace WorxlyServer.Models
         public string? State { get; set; }
         public string? Zip { get; set; }
         public string? Country { get; set; }
+        [JsonIgnore]
+        public DateTime? WhenDeleted { get; set; }
     }
 }
