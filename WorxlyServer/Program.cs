@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using WorxlyServer;
 using WorxlyServer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//SampleDataGen.DatabaseDataGen();
 
 // Add services to the container.
 

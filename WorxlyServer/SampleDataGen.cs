@@ -1,0 +1,101 @@
+﻿using Microsoft.EntityFrameworkCore;
+using WorxlyServer.Data;
+using WorxlyServer.Models;
+
+namespace WorxlyServer
+{
+    public static class SampleDataGen
+    {
+        public static void ClearDatabase(AppDbContext context)
+        {
+            context.Users.ExecuteDelete();
+            context.Categories.ExecuteDelete();
+        }
+        public static void DatabaseDataGen()
+        {
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("SqlServer"));
+            AppDbContext context = new AppDbContext(optionsBuilder.Options);
+            User user = new User()
+            {
+                Username = "user1",
+                Email = "abc@def.com",
+                Password = "abc123",
+                PasswordHash = "abc123",
+                FirstName = "John",
+                LastName = "Doe",
+                Phone = "1234567890",
+                Address = new Address()
+                {
+                    Street = "123 Main St",
+                    City = "Anytown",
+                    State = "NY",
+                    Zip = "12345"
+                },
+            };
+
+
+            WorkerCategory category1 = new WorkerCategory()
+            {
+                Name = "Electrician",
+                Services = new List<Service>()
+                {
+                    new Service()
+                    {
+                        Name = "Change Wiring",
+                        Description = "I will change your house wiring",
+                    },
+                     new Service()
+                    {
+                        Name = "Switch Fixing",
+                        Description = "I will fix any malfunctioning switches for you",
+                    },
+                },
+            };
+
+
+            Worker worker = new Worker()
+            {
+                Username = "worker",
+                Email = "defff@example.com",
+                Password = "abc567",
+                PasswordHash = "abc567",
+                FirstName = "Bob",
+                LastName = "Doe",
+                Phone = "2234567890",
+                Address = new Address()
+                {
+                    Street = "34355 Main St",
+                    City = "Anytown",
+                    State = "NY",
+                    Zip = "12345"
+                },
+                Bio = "I am a hard working worker",
+                Category = category1,
+                Services = new List<Service>()
+                {
+                    new Service()
+                    {
+                        Name = "Installing Bulb and Fans",
+                        Description = "I will install and bulb or fans for you",
+                    }
+                },
+                Ratings = new List<Rating>()
+                {
+                    new Rating()
+                    {
+                        UserId = user.Id,
+                        User = user,
+                        RatingValue = 4,
+                        Comment = "Great worker",
+                    },
+                }
+            };;
+
+        context.Users.Add(user);
+        context.Workers.Add(worker);
+        context.SaveChanges();
+        }
+    }
+}
