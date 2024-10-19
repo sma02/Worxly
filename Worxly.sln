@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worxly", "Worxly\Worxly.csproj", "{B9F72E69-F32F-432C-9560-1C55152795DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{903AE561-0734-485B-891E-0528557AB8B2} = {903AE561-0734-485B-891E-0528557AB8B2}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worxly.Android", "Worxly.Android\Worxly.Android.csproj", "{24B2E34C-CEEB-4218-B681-89451DDDAD45}"
 EndProject
@@ -11,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worxly.Desktop", "Worxly.De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worxly.iOS", "Worxly.iOS\Worxly.iOS.csproj", "{6EFE67D4-8E46-4C23-A17F-3776134104D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorxlyServer", "WorxlyServer\WorxlyServer.csproj", "{903AE561-0734-485B-891E-0528557AB8B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorxlyServer", "WorxlyServer\WorxlyServer.csproj", "{903AE561-0734-485B-891E-0528557AB8B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

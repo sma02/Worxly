@@ -1,0 +1,44 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Components="using:Worxly.Components"
+		x:DataType="Components:TextField">
+	<Design.PreviewWith>
+		<Components:TextField />
+	</Design.PreviewWith>
+
+	<Style Selector="Components|TextField">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<StackPanel
+					MinHeight="50"
+					MinWidth="100">
+					<Label Content="{TemplateBinding LabelText}"
+						   FontSize="14"
+						   Margin="5 0 5 0"
+						   FontWeight="DemiBold"/>
+					<TextBox Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+							 BorderThickness="0"
+							 CornerRadius="50"
+							 FontSize="14"
+							 Watermark="{TemplateBinding Watermark}"
+							 FontWeight="ExtraLight"
+							 Background="{DynamicResource ControlColor}">
+						<TextBox.Styles>
+							<Style Selector="Border">
+								<Setter Property="CornerRadius" Value="50"/>
+								<Setter Property="BorderThickness" Value="0"/>
+							</Style>
+							<Style Selector="Border:pointerover">
+								<Setter Property="Background" Value="{DynamicResource OnHoverColor}"/>
+							</Style>
+							<Style Selector="Border:focus">
+								<Setter Property="Background" Value="{DynamicResource OnHoverColor}"/>
+							</Style>
+						
+						</TextBox.Styles>
+						</TextBox>
+				</StackPanel>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

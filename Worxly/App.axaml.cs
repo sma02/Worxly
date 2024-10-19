@@ -17,8 +17,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-        var users = userApi.GetUserAccounts().Result;
+        //var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
+        //var users = userApi.GetUserAccounts().Result;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow

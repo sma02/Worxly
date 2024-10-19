@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+             xmlns:v="clr-namespace:Worxly.Views"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+			 xmlns:views="using:Worxly.Views"
+			 xmlns:components="using:Worxly.Components"
+			 x:Class="Worxly.LoginView"
+		     x:DataType="vm:LoginViewModel">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<TextBlock Text="Worxly" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0"/>
+		<TextBlock Text="Login" FontWeight="Heavy" Grid.Row="1" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0"/>
+		<components:TextField Grid.Row="2" Watermark="Enter your email" LabelText="Email" Text="{Binding Email}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="3" Watermark="Enter your password" LabelText="Password" Text="{Binding Password}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+			<CheckBox Grid.Column="2" Content="Remember Me" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 0"/>
+			<Button Content="Login" Grid.Row="3" Command="{Binding LoginCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		</StackPanel>
+		<Button Content="Sign Up" Grid.Row="5"  Command="{Binding SignUpCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
+	</Grid>
+</UserControl>
