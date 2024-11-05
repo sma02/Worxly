@@ -5,12 +5,27 @@
              xmlns:vm="clr-namespace:Worxly.ViewModels"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
              x:Class="Worxly.Views.MainView"
+			 xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+			 xmlns:rxui="http://reactiveui.net"
+			 xmlns:app="clr-namespace:Worxly"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
-
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<vm:MainViewModel />
+	</Design.DataContext>
+	<dialogHost:DialogHost>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+				<rxui:RoutedViewHost.DefaultContent>
+				</rxui:RoutedViewHost.DefaultContent>
+				<rxui:RoutedViewHost.ViewLocator>
+					<app:AppViewLocator />
+				</rxui:RoutedViewHost.ViewLocator>
+			</rxui:RoutedViewHost>
+		</Grid>
+	</dialogHost:DialogHost>
 </UserControl>

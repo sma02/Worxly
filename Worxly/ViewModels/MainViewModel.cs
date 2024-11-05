@@ -1,6 +1,16 @@
-﻿namespace Worxly.ViewModels;
+﻿using ReactiveUI;
+using System;
 
-public class MainViewModel : ViewModelBase
+namespace Worxly.ViewModels;
+
+public class MainViewModel : ViewModelBase, IScreen
 {
-    public string Greeting => "Welcome to Avalonia!";
+    public RoutingState Router { get; } = new RoutingState();
+    public MainViewModel()
+    {
+        Globals.CurrentMainViewModel = this;
+        Globals.Router = Router;
+
+        Router.Navigate.Execute(new SignUpViewModel());
+    }
 }

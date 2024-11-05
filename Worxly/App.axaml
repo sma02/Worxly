@@ -21,6 +21,7 @@
 		<StyleInclude Source="/Components/TextField.axaml"/>
 		<FluentTheme />
 		<materialIcons:MaterialIconStyles />
+		<dialogHostAvalonia:DialogHostStyles />
 		<StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
 	</Application.Styles>
 </Application>

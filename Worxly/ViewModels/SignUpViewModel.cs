@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Worxly.Api;
+using Refit;
 
 namespace Worxly.ViewModels
 {
@@ -52,7 +54,16 @@ namespace Worxly.ViewModels
         }
         public void SignUpButtonClick()
         {
-
+            var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
+            var user = new User
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Username = Username,
+                Email = Email,
+                Password = Password
+            };
+            var createdUser = userApi.PostUserAccount(user).Result;
         }
     }
 }
