@@ -3,56 +3,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             xmlns:vm="clr-namespace:Worxly.ViewModels"
+			 xmlns:models="clr-namespace:Worxly.Models"
+			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
-	<StackPanel Spacing="5">
-		<ItemsControl >
-			
-		</ItemsControl>
-		<Button Height="60"
-				HorizontalAlignment="Stretch"
-				CornerRadius="10"
-				Background="{DynamicResource PrimaryColor}" >
-			<DockPanel>
-				<Border HorizontalAlignment="Left"
-						BorderThickness="2"
-						Background="{DynamicResource SecondaryColor}">
-					<Image
-						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
-				</Border>
-				<Panel Margin="10 3">
-					<TextBlock Text="Fixing bulb"
-							   HorizontalAlignment="Left"
-							   VerticalAlignment="Top"
-							   FontSize="20"/>
-					<TextBlock Text="solving problems related to bulb"
-							   FontSize="16"
-							   HorizontalAlignment="Left"
-							   VerticalAlignment="Bottom"/>
-				</Panel>
-			</DockPanel>
-		</Button>
-		<Button Height="60"
-				HorizontalAlignment="Stretch"
-				CornerRadius="10"
-				Background="{DynamicResource PrimaryColor}" >
-			<DockPanel>
-				<Border HorizontalAlignment="Left"
-						BorderThickness="2"
-						Background="{DynamicResource SecondaryColor}">
-					<Image
-						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
-				</Border>
-				<Panel Margin="10 3">
-					<TextBlock Text="Fixing bulb"
-							   HorizontalAlignment="Left"
-							   VerticalAlignment="Top"
-							   FontSize="20"/>
-					<TextBlock Text="solving problems related to bulb"
-							   FontSize="16"
-							   HorizontalAlignment="Left"
-							   VerticalAlignment="Bottom"/>
-				</Panel>
-			</DockPanel>
-		</Button>
-	</StackPanel>
+	<Panel>
+		<ScrollViewer>
+		<ItemsRepeater ItemsSource="{Binding Services}">
+			<ItemsRepeater.ItemTemplate>
+				<DataTemplate DataType="models:Service">
+					<Button Height="60"
+						HorizontalAlignment="Stretch"
+						CornerRadius="10"
+						Background="{DynamicResource PrimaryColor}" >
+						<DockPanel>
+							<Border HorizontalAlignment="Left"
+									BorderThickness="2"
+									Background="{DynamicResource SecondaryColor}">
+								<Image
+									   Source="{Binding Image}" Width="50"/>
+							</Border>
+							<Panel Margin="10 3">
+								<TextBlock Text="{Binding Name}"
+										   HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontSize="20"/>
+								<TextBlock Text="{Binding Description}"
+										   FontSize="16"
+										   HorizontalAlignment="Left"
+										   VerticalAlignment="Bottom"/>
+							</Panel>
+						</DockPanel>
+					</Button>
+				</DataTemplate>
+			</ItemsRepeater.ItemTemplate>
+		</ItemsRepeater>
+		</ScrollViewer>
+	</Panel>
 </UserControl>
