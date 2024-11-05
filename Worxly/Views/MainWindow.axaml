@@ -8,5 +8,5 @@
         x:Class="Worxly.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Worxly">
-        <views:MainView />
+	<views:MainView/>
 </Window>

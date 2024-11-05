@@ -8,8 +8,8 @@ public class MainViewModel : ViewModelBase, IScreen
     public RoutingState Router { get; } = new RoutingState();
     public MainViewModel()
     {
-        Globals.CurrentMainViewModel = this;
-        Globals.Router = Router;
+        Globals.Instance.CurrentMainViewModel = this;
+        Globals.Instance.Router = Router;
 
         Router.Navigate.Execute(new SignUpViewModel());
     }

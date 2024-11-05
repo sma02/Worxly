@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="Worxly.Views.ServiceView">
+	<StackPanel Spacing="5">
+		<ItemsControl >
+			
+		</ItemsControl>
+		<Button Height="60"
+				HorizontalAlignment="Stretch"
+				CornerRadius="10"
+				Background="{DynamicResource PrimaryColor}" >
+			<DockPanel>
+				<Border HorizontalAlignment="Left"
+						BorderThickness="2"
+						Background="{DynamicResource SecondaryColor}">
+					<Image
+						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
+				</Border>
+				<Panel Margin="10 3">
+					<TextBlock Text="Fixing bulb"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+							   FontSize="20"/>
+					<TextBlock Text="solving problems related to bulb"
+							   FontSize="16"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Bottom"/>
+				</Panel>
+			</DockPanel>
+		</Button>
+		<Button Height="60"
+				HorizontalAlignment="Stretch"
+				CornerRadius="10"
+				Background="{DynamicResource PrimaryColor}" >
+			<DockPanel>
+				<Border HorizontalAlignment="Left"
+						BorderThickness="2"
+						Background="{DynamicResource SecondaryColor}">
+					<Image
+						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
+				</Border>
+				<Panel Margin="10 3">
+					<TextBlock Text="Fixing bulb"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+							   FontSize="20"/>
+					<TextBlock Text="solving problems related to bulb"
+							   FontSize="16"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Bottom"/>
+				</Panel>
+			</DockPanel>
+		</Button>
+	</StackPanel>
+</UserControl>

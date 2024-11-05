@@ -10,14 +10,16 @@ namespace Worxly
 {
     public class Globals
     {
-        private static ViewModelBase _CurrentWindow;
-        public static ViewModelBase CurrentWindow
+        private static readonly Lazy<Globals> _instance = new Lazy<Globals>(() => new Globals());
+        public static Globals Instance => _instance.Value;
+        private ViewModelBase _CurrentWindow;
+        public ViewModelBase CurrentWindow
         {
             get { return _CurrentWindow; }
             set { CurrentMainViewModel.RaiseAndSetIfChanged(ref _CurrentWindow, value); }
         }
-        public static RoutingState Router { get; set; }
-        public static MainViewModel CurrentMainViewModel { get; set; }
-        //public static string DataDirectory { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/Worxly/";
+        public RoutingState Router { get; set; }
+        public MainViewModel CurrentMainViewModel { get; set; }
+        //public string DataDirectory { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/Worxly/";
     }
 }

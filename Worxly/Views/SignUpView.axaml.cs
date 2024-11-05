@@ -5,7 +5,7 @@ using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Worxly.ViewModels;
 
-namespace Worxly;
+namespace Worxly.Views;
 
 public partial class SignUpView : ReactiveUserControl<SignUpViewModel>
 {

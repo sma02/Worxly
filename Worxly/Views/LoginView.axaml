@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
 			 xmlns:views="using:Worxly.Views"
 			 xmlns:components="using:Worxly.Components"
-			 x:Class="Worxly.LoginView"
+			 x:Class="Worxly.Views.LoginView"
 		     x:DataType="vm:LoginViewModel">
 	<Grid>
 		<Grid.RowDefinitions>

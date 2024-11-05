@@ -17,5 +17,6 @@ namespace WorxlyServer.Data
         {
             modelBuilder.Entity<User>().UseTptMappingStrategy();
         }
+        public DbSet<Service> Service { get; set; } = default!;
     }
 }

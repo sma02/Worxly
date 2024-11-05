@@ -3,20 +3,32 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Worxly.ViewModels;
+using Worxly.Views;
 
 namespace Worxly
 {
     public class AppViewLocator : ReactiveUI.IViewLocator
     {
-        public IViewFor ResolveView<T>(T viewModel, string contract = null) => viewModel switch
+        public IViewFor ResolveView<T>(T? viewModel, string? contract = null) 
         {
-            SignUpViewModel context => new SignUpView { DataContext = context },
-            LoginViewModel context => new LoginView { DataContext = context },
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+            Type ViewType = Type.GetType(viewModel.GetType().FullName.Replace("ViewModel", "View"));
+            if (ViewType != null)
+            {
+                IViewFor? view = Activator.CreateInstance(ViewType) as IViewFor;
+                if (view == null)
+                    throw new Exception($"View creation failed for {ViewType.FullName}");
+                PropertyInfo? dataContextProperty = ViewType.GetProperty("DataContext");
+                dataContextProperty?.SetValue(view, viewModel);
+                return view;
 
-            _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
-        };
+            }
+            throw new Exception($"View associated with ViewModel {viewModel.GetType().FullName} not found");
+        }
     }
 }

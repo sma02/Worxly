@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Worxly.ViewModels"
+             xmlns:views="clr-namespace:Worxly.Views"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
              x:Class="Worxly.Views.MainView"
 			 xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
