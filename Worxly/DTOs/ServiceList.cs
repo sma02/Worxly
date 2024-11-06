@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Worxly.Models
 {
-    public class ServiceListDTO
+    public class ServiceList
     {
         public required string Id { get; set; }
         public required string Name { get; set; }
