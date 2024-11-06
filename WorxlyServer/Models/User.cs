@@ -26,5 +26,7 @@ namespace WorxlyServer.Models
         public string? PasswordHash { get; set; }
         [JsonIgnore]
         public DateTime? WhenDeleted { get; set; }
+        [JsonIgnore]
+        public UserType UserType { get; set; } = UserType.User;
     }
 }

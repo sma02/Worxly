@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorxlyServer.Data;
+using WorxlyServer.DTOs;
 using WorxlyServer.Models;
 
 namespace WorxlyServer.Controllers
@@ -39,6 +40,23 @@ namespace WorxlyServer.Controllers
         {
             var userAccounts = await _context.Users.ToListAsync();
             return Ok(userAccounts);
+        }
+        [HttpGet("Auth")]
+        public async Task<IActionResult> Authenticate(string? identifier, string password)
+        {
+            if (identifier == null)
+                return BadRequest();
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Username == identifier || u.Email == identifier);
+            if (user == null)
+                return NotFound();
+            if (user.PasswordHash != HashPassword(password))
+                return Unauthorized();
+            UserDTO userDTO = new UserDTO(user);
+            return Ok(userDTO);
+        }
+        private string HashPassword(string password)
+        {
+            return password;
         }
     }
 }

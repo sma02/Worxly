@@ -12,7 +12,7 @@ using WorxlyServer.Data;
 namespace WorxlyServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241018072626_Initial Migration")]
+    [Migration("20241106192428_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -200,6 +200,9 @@ namespace WorxlyServer.Migrations
 
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()

@@ -10,5 +10,9 @@ namespace WorxlyServer.Models
         public IEnumerable<Service>? Services { get; set; }
         public IEnumerable<Rating>? Ratings { get; set; }
         public float? OverallRating { get; set; }
+        public Worker() 
+        {
+            UserType = UserType.Worker;
+        }
     }
 }
