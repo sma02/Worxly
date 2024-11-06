@@ -20,7 +20,16 @@ namespace WorxlyServer.Controllers
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
-            user.PasswordHash = user.Password;
+
+            User u = new User
+            {
+                Username = user.Username,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Password = user.Password,
+            };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return Ok(user);
