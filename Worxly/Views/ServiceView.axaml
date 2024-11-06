@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
-             xmlns:vm="clr-namespace:Worxly.ViewModels"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
 			 xmlns:models="clr-namespace:Worxly.Models"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
@@ -39,5 +40,23 @@
 			</ItemsRepeater.ItemTemplate>
 		</ItemsRepeater>
 		</ScrollViewer>
+		<Button VerticalAlignment="Bottom"
+		HorizontalAlignment="Right"
+		CornerRadius="25"
+		Command="{Binding AddButtonCommand}"
+		Margin="30"
+		Width="50"
+		Height="50"
+		BorderThickness="0"
+		Padding="6"
+		Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
+		Background="{DynamicResource SecondaryColor}">
+			<Button.Styles>
+				<Style Selector="Button:pointerover /template/ ContentPresenter">
+					<Setter Property="Opacity" Value="0.9"/>
+					<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
+				</Style>
+			</Button.Styles>
+		</Button>
 	</Panel>
 </UserControl>
