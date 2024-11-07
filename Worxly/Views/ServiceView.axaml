@@ -6,17 +6,23 @@
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:vm="clr-namespace:Worxly.ViewModels"
 			 xmlns:models="clr-namespace:Worxly.Models"
+			 xmlns:components="using:Worxly.Components"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
 	<Panel>
 		<ScrollViewer>
-		<ItemsRepeater ItemsSource="{Binding Services}">
+		<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate DataType="models:Service">
 					<Button Height="60"
 						HorizontalAlignment="Stretch"
 						CornerRadius="10"
 						Background="{DynamicResource PrimaryColor}" >
+						<Button.Styles>
+							<Style Selector="Button:pressed">
+								<Setter Property="RenderTransform" Value="scale(1)"/>
+							</Style>
+						</Button.Styles>
 						<DockPanel>
 							<Border HorizontalAlignment="Left"
 									BorderThickness="2"
@@ -40,6 +46,7 @@
 			</ItemsRepeater.ItemTemplate>
 		</ItemsRepeater>
 		</ScrollViewer>
+		<components:SearchBox VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
 		<Button VerticalAlignment="Bottom"
 		HorizontalAlignment="Right"
 		CornerRadius="25"
