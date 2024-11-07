@@ -16,7 +16,7 @@ namespace Worxly.Api
         [Post("/api/user")]
         Task<User> PostUserAccount(User userDto);
 
-        //[Post("/api/user/login")]
-        //Task<AuthenticationResponse> LoginUser([Body] LoginRequest loginRequest);
+        [Get("/api/user/Auth")]
+        Task<UserAuth> Authenticate(string? identifier, string password);
     }
 }

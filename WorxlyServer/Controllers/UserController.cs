@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorxlyServer.Data;
@@ -12,25 +13,32 @@ namespace WorxlyServer.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly PasswordHasher<User> _passwordHasher;
         public UserController(AppDbContext context)
         {
             _context = context;
+            _passwordHasher = new PasswordHasher<User>();
         }
         [HttpPost]
-        public async Task<IActionResult> PostUserAccount([FromBody] User user)
+        public async Task<IActionResult> PostUserAccount([FromBody] UserDTO userDto)
         {
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);
-
-            User u = new User
+            var user = new User
             {
-                Username = user.Username,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Password = user.Password,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Username = userDto.Username,
+                Email = userDto.Email,
+                Password = userDto.Password,
             };
-
+            user.UserType = userDto.UserTypeVal switch
+            {
+                "Admin" => UserType.Admin,
+                "User" => UserType.User,
+                "Worker" => UserType.Worker
+            };
+            user.PasswordHash = _passwordHasher.HashPassword(user, user.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return Ok(user);
@@ -49,14 +57,11 @@ namespace WorxlyServer.Controllers
             User? user = await _context.Users.FirstOrDefaultAsync(u => u.Username == identifier || u.Email == identifier);
             if (user == null)
                 return NotFound();
-            if (user.PasswordHash != HashPassword(password))
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            if (verificationResult == PasswordVerificationResult.Failed)
                 return Unauthorized();
             UserDTO userDTO = new UserDTO(user);
             return Ok(userDTO);
-        }
-        private string HashPassword(string password)
-        {
-            return password;
         }
     }
 }

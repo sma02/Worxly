@@ -20,13 +20,25 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<TextBlock Text="Worxly" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0"/>
-		<TextBlock Text="SignUp" FontWeight="Heavy" Grid.Row="1" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0"/>
-		<components:TextField Grid.Row="2" Watermark="Enter your First Name" LabelText="First Name" Text="{Binding FirstName}" VerticalAlignment="Center" Margin="10 0 10 0"/>
-		<components:TextField Grid.Row="3" Watermark="Enter your Last Name" LabelText="Last Name" Text="{Binding LastName}" VerticalAlignment="Center" Margin="10 0 10 0"/>
-		<components:TextField Grid.Row="4" Watermark="Enter your Email" LabelText="Email" Text="{Binding Email}" VerticalAlignment="Center" Margin="10 0 10 0"/>
-		<components:TextField Grid.Row="5" Watermark="Enter your Username" LabelText="Username" Text="{Binding Username}" VerticalAlignment="Center" Margin="10 0 10 0"/>
-		<components:TextField Grid.Row="6" Watermark="Enter your Password" LabelText="Password" Text="{Binding Password}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<TextBlock Text="SignUp" FontWeight="Heavy" Grid.Row="0" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0"/>
+		<components:TextField Grid.Row="1" Watermark="Enter your First Name" LabelText="First Name" Text="{Binding FirstName}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="2" Watermark="Enter your Last Name" LabelText="Last Name" Text="{Binding LastName}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="3" Watermark="Enter your Email" LabelText="Email" Text="{Binding Email}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="4" Watermark="Enter your Username" LabelText="Username" Text="{Binding Username}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="5" Watermark="Enter your Password" LabelText="Password" Text="{Binding Password}" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<StackPanel
+				MinHeight="50"
+				MinWidth="100"
+				Grid.Row="6">
+			<Label Content="Select Account Type"
+				   FontSize="14"
+				   Margin="15 0 5 0"
+				   FontWeight="DemiBold"/>
+			<StackPanel Orientation="Horizontal">
+				<RadioButton Content="Customer" GroupName="AccountType" IsChecked="true" Margin="20 0 5 0"/>
+				<RadioButton Content="Worker" GroupName="AccountType" Margin="30 0 5 0"/>
+			</StackPanel>
+		</StackPanel>
 		<Button Content="Sign Up" Grid.Row="7"  Command="{Binding SignUpCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
 	</Grid>
 </UserControl>
