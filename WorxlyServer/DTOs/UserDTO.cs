@@ -20,5 +20,9 @@ namespace WorxlyServer.DTOs
             LastName = user.LastName;
             UserTypeVal = user.UserType.GetDisplayName();
         }
+        public UserDTO()
+        {
+
+        }
     }
 }
