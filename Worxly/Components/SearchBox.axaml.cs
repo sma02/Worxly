@@ -11,13 +11,6 @@ using System;
 
 namespace Worxly.Components;
 
-public class DockContainer : DockPanel
-{
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        base.OnKeyDown(e);
-    }
-}
 public class SearchBox : TemplatedControl
 {
     public static readonly StyledProperty<string> WatermarkProperty =
