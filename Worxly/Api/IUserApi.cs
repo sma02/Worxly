@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worxly.Models;
+using Worxly.DTOs;
 
 namespace Worxly.Api
 {
@@ -16,7 +16,7 @@ namespace Worxly.Api
         [Post("/api/user")]
         Task<User> PostUserAccount(User userDto);
 
-        //[Post("/api/user/login")]
-        //Task<AuthenticationResponse> LoginUser([Body] LoginRequest loginRequest);
+        [Get("/api/user/Auth")]
+        Task<UserAuth> Authenticate(string? identifier, string password);
     }
 }

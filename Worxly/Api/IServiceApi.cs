@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worxly.Models;
+using Worxly.DTOs;
 
 namespace Worxly.Api
 {

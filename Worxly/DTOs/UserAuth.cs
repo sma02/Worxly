@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worxly.Models
+namespace Worxly.DTOs
 {
     public class UserAuth
     {
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string UserTypeVal { get; set; }
     }
 }
