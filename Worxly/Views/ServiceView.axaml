@@ -5,14 +5,14 @@
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:vm="clr-namespace:Worxly.ViewModels"
-			 xmlns:models="clr-namespace:Worxly.Models"
+			 xmlns:dtos="clr-namespace:Worxly.DTOs"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
 	<Panel>
 		<ScrollViewer>
 		<ItemsRepeater ItemsSource="{Binding Services}">
 			<ItemsRepeater.ItemTemplate>
-				<DataTemplate DataType="models:Service">
+				<DataTemplate DataType="dtos:Service">
 					<Button Height="60"
 						HorizontalAlignment="Stretch"
 						CornerRadius="10"

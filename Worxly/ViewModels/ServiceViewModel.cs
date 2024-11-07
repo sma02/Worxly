@@ -7,7 +7,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worxly.Models;
+using Worxly.DTOs;
 
 namespace Worxly.ViewModels
 {

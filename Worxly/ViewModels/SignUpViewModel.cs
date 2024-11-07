@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Worxly.Api;
-using Worxly.Models;
+using Worxly.DTOs;
 using Refit;
 
 namespace Worxly.ViewModels

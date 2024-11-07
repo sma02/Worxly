@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worxly.Models
+namespace Worxly.DTOs
 {
     public class Service : INotifyPropertyChanged
     {
