@@ -14,11 +14,12 @@
 			<Color x:Key="OnHoverColor">#393C41</Color>
 			<Color x:Key="OnPressedColor">#36393D</Color>
 			<Color x:Key="ControlColor">#383A40</Color>
-		</ResourceDictionary>
-	</Application.Resources>
+			</ResourceDictionary>
+			</Application.Resources>
 
 	<Application.Styles>
 		<StyleInclude Source="/Components/TextField.axaml"/>
+		<StyleInclude Source="/Components/SearchBox.axaml"/>
 		<FluentTheme />
 		<materialIcons:MaterialIconStyles />
 		<dialogHostAvalonia:DialogHostStyles />
