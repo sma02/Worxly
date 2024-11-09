@@ -9,8 +9,14 @@
 			 xmlns:dtos="clr-namespace:Worxly.DTOs"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
-	<Panel>
-		<ScrollViewer>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
+		<ScrollViewer Grid.Row="1">
 			<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
 				<ItemsRepeater.ItemTemplate>
 					<DataTemplate DataType="dtos:Service">
@@ -46,8 +52,8 @@
 				</ItemsRepeater.ItemTemplate>
 			</ItemsRepeater>
 		</ScrollViewer>
-		<components:SearchBox VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
-		<Button VerticalAlignment="Bottom"
+		<Button Grid.Row="2" 
+			VerticalAlignment="Bottom"
 		HorizontalAlignment="Right"
 		CornerRadius="25"
 		Command="{Binding AddButtonCommand}"
@@ -65,5 +71,5 @@
 				</Style>
 			</Button.Styles>
 		</Button>
-	</Panel>
+	</Grid>
 </UserControl>

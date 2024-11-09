@@ -23,9 +23,10 @@ namespace WorxlyServer.Controllers
 
         // GET: api/Services
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetService()
+        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
         {
-            return await _context.Service.ToListAsync();
+            var serviceList = await _context.Service.ToListAsync();
+            return Ok(serviceList);
         }
 
         // GET: api/Services/5
