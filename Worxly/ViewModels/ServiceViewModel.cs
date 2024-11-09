@@ -1,6 +1,7 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Worxly.Api;
 using Worxly.DTOs;
 
 namespace Worxly.ViewModels
@@ -18,7 +20,7 @@ namespace Worxly.ViewModels
     {
         public ReadOnlyObservableCollection<Service> Services => services;
         public ReactiveCommand<Unit, Unit> AddButtonCommand { get; set; }
-        private SourceCache<Service, string> sourceCache = new(x => x.Id);
+        private SourceCache<Service, int> sourceCache = new(x => x.Id);
         private string searchText = "";
         private ReadOnlyObservableCollection<Service> services;
 
@@ -34,6 +36,9 @@ namespace Worxly.ViewModels
 
         public ServiceViewModel()
         {
+            var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
+            var servicesList = serviceApi.GetServices().Result;
+            sourceCache.AddOrUpdate(servicesList);
             sourceCache.Connect()
                 .Filter(x => x.Name.ToLower().Contains(searchText.ToLower())).Bind(out services)
                 .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))

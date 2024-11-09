@@ -6,7 +6,6 @@ namespace WorxlyServer.Models
     [Table("Services")]
     public class Service
     {
-        [JsonIgnore]
         public int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
