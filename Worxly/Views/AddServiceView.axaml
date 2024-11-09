@@ -26,6 +26,6 @@
                     Margin="10 0 10 0" Click="OpenFileButton_Clicked"/>
 		</StackPanel>
 
-		<Button Content="Add" Grid.Row="3" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<Button Content="Add" Grid.Row="3" Command="{Binding AddServiceCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
 	</Grid>
 </UserControl>

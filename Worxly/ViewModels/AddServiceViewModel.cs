@@ -31,6 +31,10 @@ namespace Worxly.ViewModels
             get => imageurl; 
             set => this.RaiseAndSetIfChanged(ref imageurl, value);
         }
+        public AddServiceViewModel()
+        {
+            AddServiceCommand = ReactiveCommand.Create(AddServiceClick);
+        }
         public void AddServiceClick()
         {
             var serviceApi= RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
