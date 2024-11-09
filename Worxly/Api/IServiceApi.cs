@@ -12,5 +12,8 @@ namespace Worxly.Api
     {
         [Get("/api/service")]
         Task<List<Service>> GetUserServices(User user);
+
+        [Post("/api/service")]
+        Task<Service> PostService(Service serviceDto);
     }
 }
