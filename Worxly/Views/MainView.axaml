@@ -18,9 +18,11 @@
 	<dialogHost:DialogHost>
 		<Grid>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="40"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+			<TextBlock Text="Worxly" FontWeight="Heavy" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			<rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
 				<rxui:RoutedViewHost.DefaultContent>
 				</rxui:RoutedViewHost.DefaultContent>
 				<rxui:RoutedViewHost.ViewLocator>

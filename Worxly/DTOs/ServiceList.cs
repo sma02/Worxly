@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worxly.Models
+namespace Worxly.DTOs
 {
-    public class Service
+    public class ServiceList
     {
         public required string Id { get; set; }
         public required string Name { get; set; }
-        public required string Description { get; set; }
-        public string? Image { get; set; }
-
     }
 }

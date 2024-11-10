@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worxly.Models;
+using Worxly.DTOs;
 
 namespace Worxly.Api
 {
@@ -12,5 +12,8 @@ namespace Worxly.Api
     {
         [Get("/api/service")]
         Task<List<Service>> GetUserServices(User user);
+
+        [Post("/api/Services")]
+        Task<Service> PostService(Service serviceDto);
     }
 }
