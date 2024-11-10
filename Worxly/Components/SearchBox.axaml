@@ -1,0 +1,50 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"    
+		xmlns:components="using:Worxly.Components">
+  
+  <Design.PreviewWith>
+	  <components:SearchBox/>
+  </Design.PreviewWith>
+ 
+  <Style Selector="components|SearchBox">
+    <Setter Property="Template">
+
+      <ControlTemplate>
+		  <Border 
+				  CornerRadius="5"
+				  Height="35"
+				  Margin="5"
+				  Background="{DynamicResource BackgroundColor}">
+			  <Border.Styles>
+				  <Style Selector="Border:pointerover">
+					  <Setter Property="Background" Value="{DynamicResource OnHoverColor}"/>
+					  <Setter Property="CornerRadius" Value="5"/>
+				  </Style>
+			  </Border.Styles>
+			  
+			  <DockPanel>
+				  <materialIcons:MaterialIcon Margin="5 0 0 0" HorizontalAlignment="Left" x:Name="SearchMaterialIcon" Kind="Search" Background="Transparent"/>
+
+				  <TextBox Watermark="{TemplateBinding Watermark}"
+						   Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+						   BorderThickness="0"
+						   Background="Transparent"
+						   x:Name="TextBoxSearchBox"
+						   VerticalContentAlignment="Center">
+					  <TextBox.Styles>
+						  <Style Selector="TextBox:focus-within /template/ Border#PART_BorderElement">
+							  <Setter Property="BorderThickness" Value="0"/>
+							  <Setter Property="Background" Value="Transparent"/>
+						  </Style>
+						  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+							  <Setter Property="Background" Value="Transparent"/>
+						  </Style>
+					  </TextBox.Styles>
+				  </TextBox>
+			  </DockPanel>
+		  </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

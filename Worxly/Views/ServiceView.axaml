@@ -4,43 +4,56 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:components="using:Worxly.Components"
 			 xmlns:vm="clr-namespace:Worxly.ViewModels"
 			 xmlns:dtos="clr-namespace:Worxly.DTOs"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
-	<Panel>
-		<ScrollViewer>
-		<ItemsRepeater ItemsSource="{Binding Services}">
-			<ItemsRepeater.ItemTemplate>
-				<DataTemplate DataType="dtos:Service">
-					<Button Height="60"
-						HorizontalAlignment="Stretch"
-						CornerRadius="10"
-						Background="{DynamicResource PrimaryColor}" >
-						<DockPanel>
-							<Border HorizontalAlignment="Left"
-									BorderThickness="2"
-									Background="{DynamicResource SecondaryColor}">
-								<Image
-									   Source="{Binding Image}" Width="50"/>
-							</Border>
-							<Panel Margin="10 3">
-								<TextBlock Text="{Binding Name}"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontSize="20"/>
-								<TextBlock Text="{Binding Description}"
-										   FontSize="16"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Bottom"/>
-							</Panel>
-						</DockPanel>
-					</Button>
-				</DataTemplate>
-			</ItemsRepeater.ItemTemplate>
-		</ItemsRepeater>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
+		<ScrollViewer Grid.Row="1">
+			<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate DataType="dtos:Service">
+						<Button Height="60"
+							HorizontalAlignment="Stretch"
+							CornerRadius="10"
+							Background="{DynamicResource PrimaryColor}" >
+							<Button.Styles>
+								<Style Selector="Button:pressed">
+									<Setter Property="RenderTransform" Value="scale(1)"/>
+								</Style>
+							</Button.Styles>
+							<DockPanel>
+								<Border HorizontalAlignment="Left"
+										BorderThickness="2"
+										Background="{DynamicResource SecondaryColor}">
+									<Image
+										   Source="{Binding Image}" Width="50"/>
+								</Border>
+								<Panel Margin="10 3">
+									<TextBlock Text="{Binding Name}"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Top"
+											   FontSize="20"/>
+									<TextBlock Text="{Binding Description}"
+											   FontSize="16"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Bottom"/>
+								</Panel>
+							</DockPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
 		</ScrollViewer>
-		<Button VerticalAlignment="Bottom"
+		<Button Grid.Row="2" 
+			VerticalAlignment="Bottom"
 		HorizontalAlignment="Right"
 		CornerRadius="25"
 		Command="{Binding AddButtonCommand}"
@@ -58,5 +71,5 @@
 				</Style>
 			</Button.Styles>
 		</Button>
-	</Panel>
+	</Grid>
 </UserControl>
