@@ -10,10 +10,10 @@ namespace Worxly.Api
 {
     public interface IServiceApi
     {
+        [Post("/api/Services")]
+        Task<Service> PostService(Service serviceDto);
+      
         [Get("/api/service")]
-        Task<List<Service>> GetUserServices(User user);
-
-        [Get("/api/services")]
-        Task<List<Service>> GetServices();
+        Task<List<Service>> GetServices(User user);
     }
 }
