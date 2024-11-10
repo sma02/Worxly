@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worxly.DTOs
+namespace Worxly.Models
 {
     public class User
     {
@@ -13,6 +13,5 @@ namespace Worxly.DTOs
         public required string Password { get; set; }
         public required string FirstName { get; set; }
         public string LastName { get; set; }
-        public string UserTypeVal { get; set; }
     }
 }

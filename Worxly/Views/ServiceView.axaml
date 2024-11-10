@@ -3,60 +3,56 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
-             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-			 xmlns:vm="clr-namespace:Worxly.ViewModels"
-			 xmlns:dtos="clr-namespace:Worxly.DTOs"
-			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
-	<Panel>
-		<ScrollViewer>
-		<ItemsRepeater ItemsSource="{Binding Services}">
-			<ItemsRepeater.ItemTemplate>
-				<DataTemplate DataType="dtos:Service">
-					<Button Height="60"
-						HorizontalAlignment="Stretch"
-						CornerRadius="10"
-						Background="{DynamicResource PrimaryColor}" >
-						<DockPanel>
-							<Border HorizontalAlignment="Left"
-									BorderThickness="2"
-									Background="{DynamicResource SecondaryColor}">
-								<Image
-									   Source="{Binding Image}" Width="50"/>
-							</Border>
-							<Panel Margin="10 3">
-								<TextBlock Text="{Binding Name}"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontSize="20"/>
-								<TextBlock Text="{Binding Description}"
-										   FontSize="16"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Bottom"/>
-							</Panel>
-						</DockPanel>
-					</Button>
-				</DataTemplate>
-			</ItemsRepeater.ItemTemplate>
-		</ItemsRepeater>
-		</ScrollViewer>
-		<Button VerticalAlignment="Bottom"
-		HorizontalAlignment="Right"
-		CornerRadius="25"
-		Command="{Binding AddButtonCommand}"
-		Margin="30"
-		Width="50"
-		Height="50"
-		BorderThickness="0"
-		Padding="6"
-		Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
-		Background="{DynamicResource SecondaryColor}">
-			<Button.Styles>
-				<Style Selector="Button:pointerover /template/ ContentPresenter">
-					<Setter Property="Opacity" Value="0.9"/>
-					<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
-				</Style>
-			</Button.Styles>
+	<StackPanel Spacing="5">
+		<ItemsControl >
+			
+		</ItemsControl>
+		<Button Height="60"
+				HorizontalAlignment="Stretch"
+				CornerRadius="10"
+				Background="{DynamicResource PrimaryColor}" >
+			<DockPanel>
+				<Border HorizontalAlignment="Left"
+						BorderThickness="2"
+						Background="{DynamicResource SecondaryColor}">
+					<Image
+						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
+				</Border>
+				<Panel Margin="10 3">
+					<TextBlock Text="Fixing bulb"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+							   FontSize="20"/>
+					<TextBlock Text="solving problems related to bulb"
+							   FontSize="16"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Bottom"/>
+				</Panel>
+			</DockPanel>
 		</Button>
-	</Panel>
+		<Button Height="60"
+				HorizontalAlignment="Stretch"
+				CornerRadius="10"
+				Background="{DynamicResource PrimaryColor}" >
+			<DockPanel>
+				<Border HorizontalAlignment="Left"
+						BorderThickness="2"
+						Background="{DynamicResource SecondaryColor}">
+					<Image
+						   Source="avares://Worxly/Assets/avalonia-logo.ico"/>
+				</Border>
+				<Panel Margin="10 3">
+					<TextBlock Text="Fixing bulb"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+							   FontSize="20"/>
+					<TextBlock Text="solving problems related to bulb"
+							   FontSize="16"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Bottom"/>
+				</Panel>
+			</DockPanel>
+		</Button>
+	</StackPanel>
 </UserControl>

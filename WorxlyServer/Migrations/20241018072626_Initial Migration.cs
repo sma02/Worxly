@@ -75,8 +75,7 @@ namespace WorxlyServer.Migrations
                     AddressId = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserType = table.Column<int>(type: "int", nullable: false)
+                    WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

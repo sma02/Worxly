@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorxlyServer.Data;
 using WorxlyServer.Models;
-using WorxlyServer.DTOs;
 
 namespace WorxlyServer.Controllers
 {
@@ -75,18 +74,12 @@ namespace WorxlyServer.Controllers
 
         // POST: api/Services
         [HttpPost]
-        public async Task<IActionResult> PostService([FromBody] ServiceDTO serviceDto)
+        public async Task<ActionResult<Service>> PostService(Service service)
         {
-            if (ModelState.IsValid == false)
-                return BadRequest(ModelState);
-            Service service = new Service
-            {
-                Name = serviceDto.Name,
-                Description = serviceDto.Description,
-            };
             _context.Service.Add(service);
             await _context.SaveChangesAsync();
-            return Ok(service);
+
+            return CreatedAtAction("GetService", new { id = service.Id }, service);
         }
 
         // DELETE: api/Services/5
@@ -109,6 +102,5 @@ namespace WorxlyServer.Controllers
         {
             return _context.Service.Any(e => e.Id == id);
         }
-
     }
 }

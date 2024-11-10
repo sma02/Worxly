@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Worxly.Api;
-using Worxly.DTOs;
+using Worxly.Models;
 using Refit;
 
 namespace Worxly.ViewModels
@@ -22,7 +22,6 @@ namespace Worxly.ViewModels
         private string username = string.Empty;
         private string email = string.Empty;
         private string password = string.Empty;
-        private bool isCustomer = true;
 
         public ICommand SignUpCommand { get; }
         public string FirstName
@@ -50,11 +49,6 @@ namespace Worxly.ViewModels
             get => password;
             set => this.RaiseAndSetIfChanged(ref password, value);
         }
-        public bool IsCustomer
-        {
-            get => isCustomer;
-            set => this.RaiseAndSetIfChanged(ref isCustomer, value);
-        }
         public SignUpViewModel()
         {
             SignUpCommand = ReactiveCommand.Create(SignUpButtonClick);
@@ -70,16 +64,7 @@ namespace Worxly.ViewModels
                 Email = Email,
                 Password = Password
             };
-            if (IsCustomer)
-            {
-                user.UserTypeVal = "User";
-            }
-            else
-            {
-                user.UserTypeVal = "Worker";
-            }
             var createdUser = userApi.PostUserAccount(user).Result;
-            Globals.Instance.Router.Navigate.Execute(new LoginViewModel());
         }
     }
 }

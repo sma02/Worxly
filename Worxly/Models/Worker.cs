@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worxly.DTOs
+namespace Worxly.Models
 {
     public class Worker
     {
