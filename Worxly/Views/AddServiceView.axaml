@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+             x:Class="Worxly.Views.AddServiceView"
+			 x:DataType="vm:AddServiceViewModel"
+             xmlns:components="using:Worxly.Components">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<components:TextField Grid.Row="0" Text="{Binding Name}" Watermark="Enter service name" LabelText="Title" VerticalAlignment="Center" Margin="10 0 10 0"/>
+
+		<components:TextField Grid.Row="1" Watermark="Explain your service" Text="{Binding Description}" LabelText="Description" Margin="10 0 10 0"/>
+
+		<StackPanel Grid.Row="2" MinHeight="50" MinWidth="100">
+			<Label Content="Upload File" FontSize="14" Margin="15 0 5 0" FontWeight="DemiBold"/>
+
+			<Button Content="Upload Picture" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10 0 10 0" Click="OpenFileButton_Clicked"/>
+		</StackPanel>
+
+		<Button Content="Add" Grid.Row="3" Command="{Binding AddServiceCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
+	</Grid>
+</UserControl>
