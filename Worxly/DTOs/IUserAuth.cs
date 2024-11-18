@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Worxly.DTOs
 {
-    public class UserAuth
+    public interface IUserAuth
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserTypeVal { get; set; }
