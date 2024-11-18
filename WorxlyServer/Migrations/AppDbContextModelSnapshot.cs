@@ -36,6 +36,9 @@ namespace WorxlyServer.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -111,6 +114,9 @@ namespace WorxlyServer.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RatingValue")
                         .HasColumnType("int");
 
@@ -139,6 +145,9 @@ namespace WorxlyServer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -179,17 +188,22 @@ namespace WorxlyServer.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -223,6 +237,59 @@ namespace WorxlyServer.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("WorxlyServer.Models.Work", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("WhenDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WorkRecords");
+                });
+
+            modelBuilder.Entity("WorxlyServer.Models.WorkStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("WorkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkStatusType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("WorkStatus");
+                });
+
             modelBuilder.Entity("WorxlyServer.Models.WorkerCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -249,7 +316,7 @@ namespace WorxlyServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("WorkerCategories");
                 });
 
             modelBuilder.Entity("WorxlyServer.Models.Worker", b =>
@@ -316,6 +383,28 @@ namespace WorxlyServer.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("WorxlyServer.Models.Work", b =>
+                {
+                    b.HasOne("WorxlyServer.Models.Worker", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WorxlyServer.Models.User", null)
+                        .WithMany("WorkSubscriptions")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("WorxlyServer.Models.WorkStatus", b =>
+                {
+                    b.HasOne("WorxlyServer.Models.Work", null)
+                        .WithMany("WorkStatuses")
+                        .HasForeignKey("WorkId");
+                });
+
             modelBuilder.Entity("WorxlyServer.Models.Worker", b =>
                 {
                     b.HasOne("WorxlyServer.Models.WorkerCategory", "Category")
@@ -329,6 +418,16 @@ namespace WorxlyServer.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("WorxlyServer.Models.User", b =>
+                {
+                    b.Navigation("WorkSubscriptions");
+                });
+
+            modelBuilder.Entity("WorxlyServer.Models.Work", b =>
+                {
+                    b.Navigation("WorkStatuses");
                 });
 
             modelBuilder.Entity("WorxlyServer.Models.WorkerCategory", b =>

@@ -9,24 +9,18 @@ namespace WorxlyServer.Models
     [Table("Users")]
     public class User
     {
-        [JsonIgnore]
         public int Id { get; set; }
-        public required string Username { get; set; }
-        public required string Email { get; set; }
-        public string? FirstName { get; set; }
+        public string Username { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string FirstName { get; set; } = null!;
         public string? LastName { get; set; }
         public string? ProfilePicture { get; set; }
-        [JsonIgnore]
         public Address? Address { get; set; }
+        public IEnumerable<Work>? WorkSubscriptions { get; set; }
         public string? Phone { get; set; }
-        [NotMapped]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public required string Password { get; set; }
-        [JsonIgnore]
-        public string? PasswordHash { get; set; }
-        [JsonIgnore]
+        public string PasswordHash { get; set; } = null!;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? WhenDeleted { get; set; }
-        [JsonIgnore]
         public UserType UserType { get; set; } = UserType.User;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WorxlyServer.Data;
 using WorxlyServer.Models;
 
@@ -13,6 +14,7 @@ namespace WorxlyServer
         }
         public static void DatabaseDataGen()
         {
+            PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("SqlServer"));
@@ -21,8 +23,6 @@ namespace WorxlyServer
             {
                 Username = "user1",
                 Email = "abc@def.com",
-                Password = "abc123",
-                PasswordHash = "abc123",
                 FirstName = "John",
                 LastName = "Doe",
                 Phone = "1234567890",
@@ -34,6 +34,7 @@ namespace WorxlyServer
                     Zip = "12345"
                 },
             };
+            user.PasswordHash = passwordHasher.HashPassword(user, "pass123");
 
 
             WorkerCategory category1 = new WorkerCategory()
@@ -59,7 +60,6 @@ namespace WorxlyServer
             {
                 Username = "worker",
                 Email = "defff@example.com",
-                Password = "abc567",
                 PasswordHash = "abc567",
                 FirstName = "Bob",
                 LastName = "Doe",
@@ -85,13 +85,13 @@ namespace WorxlyServer
                 {
                     new Rating()
                     {
-                        UserId = user.Id,
                         User = user,
                         RatingValue = 4,
                         Comment = "Great worker",
                     },
                 }
             };;
+            worker.PasswordHash = passwordHasher.HashPassword(worker, "passWorker");
 
         context.Users.Add(user);
         context.Workers.Add(worker);

@@ -30,7 +30,6 @@ namespace WorxlyServer.Controllers
                 LastName = userDto.LastName,
                 Username = userDto.Username,
                 Email = userDto.Email,
-                Password = userDto.Password,
             };
             user.UserType = userDto.UserTypeVal switch
             {
@@ -38,7 +37,7 @@ namespace WorxlyServer.Controllers
                 "User" => UserType.User,
                 "Worker" => UserType.Worker
             };
-            user.PasswordHash = _passwordHasher.HashPassword(user, user.Password);
+            user.PasswordHash = _passwordHasher.HashPassword(user, userDto.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return Ok(user);

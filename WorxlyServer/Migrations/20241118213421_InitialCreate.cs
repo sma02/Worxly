@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorxlyServer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,28 +22,12 @@ namespace WorxlyServer.Migrations
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Zip = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +46,23 @@ namespace WorxlyServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WorkerCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkerCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -69,12 +70,13 @@ namespace WorxlyServer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserType = table.Column<int>(type: "int", nullable: false)
                 },
@@ -122,16 +124,16 @@ namespace WorxlyServer.Migrations
                 {
                     table.PrimaryKey("PK_Workers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Workers_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Workers_Users_Id",
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Workers_WorkerCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "WorkerCategories",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +145,7 @@ namespace WorxlyServer.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     RatingValue = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     WorkerId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -171,6 +174,7 @@ namespace WorxlyServer.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     WorkerCategoryId = table.Column<int>(type: "int", nullable: true),
                     WorkerId = table.Column<int>(type: "int", nullable: true)
@@ -179,14 +183,61 @@ namespace WorxlyServer.Migrations
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Services_Categories_WorkerCategoryId",
+                        name: "FK_Services_WorkerCategories_WorkerCategoryId",
                         column: x => x.WorkerCategoryId,
-                        principalTable: "Categories",
+                        principalTable: "WorkerCategories",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Services_Workers_WorkerId",
                         column: x => x.WorkerId,
                         principalTable: "Workers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkRecords",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkRecords_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_WorkRecords_Workers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Workers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkStatusType = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WorkId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkStatus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkStatus_WorkRecords_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "WorkRecords",
                         principalColumn: "Id");
                 });
 
@@ -236,6 +287,21 @@ namespace WorxlyServer.Migrations
                 name: "IX_Workers_CategoryId",
                 table: "Workers",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkRecords_ProviderId",
+                table: "WorkRecords",
+                column: "ProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkRecords_UserId",
+                table: "WorkRecords",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkStatus_WorkId",
+                table: "WorkStatus",
+                column: "WorkId");
         }
 
         /// <inheritdoc />
@@ -251,16 +317,22 @@ namespace WorxlyServer.Migrations
                 name: "Services");
 
             migrationBuilder.DropTable(
+                name: "WorkStatus");
+
+            migrationBuilder.DropTable(
                 name: "Chats");
+
+            migrationBuilder.DropTable(
+                name: "WorkRecords");
 
             migrationBuilder.DropTable(
                 name: "Workers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "WorkerCategories");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
