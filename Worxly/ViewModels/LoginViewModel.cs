@@ -40,21 +40,28 @@ namespace Worxly.ViewModels
         {
             Globals.Instance.Router.Navigate.Execute(new SignUpViewModel());
         }
-        public void LoginButtonClick()
+        public async void LoginButtonClick()
         {
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var res = userApi.Authenticate(Email, Password).Result;
-            if(res.UserTypeVal=="Admin")
+            var res = await userApi.Authenticate(Email, Password);
+            if (res.StatusCode != System.Net.HttpStatusCode.OK)
+                return;
+            if (Globals.Instance.CurrentUserAuth is null && res.Content != null)
+            {
+                Globals.Instance.CurrentUser = res.Content;
+                Globals.Instance.CurrentUserAuth = res.Content;
+            }
+            var content = res.Content;
+            if (content.UserTypeVal == "Admin")
             {
 
             }
-            else if (res.UserTypeVal == "Worker")
+            else if (content.UserTypeVal == "Worker")
             {
-
             }
-            else if(res.UserTypeVal=="User")
+            else if (content.UserTypeVal == "User")
             {
-
+                Globals.Instance.Router.Navigate.Execute(new ServiceViewModel());
             }
         }
     }

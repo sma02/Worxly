@@ -62,22 +62,15 @@ namespace Worxly.ViewModels
         public void SignUpButtonClick()
         {
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var user = new User
+            var user = new UserCreate
             {
                 FirstName = FirstName,
                 LastName = LastName,
                 Username = Username,
                 Email = Email,
-                Password = Password
+                Password = Password,
+                UserTypeVal = IsCustomer ? "User" : "Worker"
             };
-            if (IsCustomer)
-            {
-                user.UserTypeVal = "User";
-            }
-            else
-            {
-                user.UserTypeVal = "Worker";
-            }
             var createdUser = userApi.PostUserAccount(user).Result;
             Globals.Instance.Router.Navigate.Execute(new LoginViewModel());
         }

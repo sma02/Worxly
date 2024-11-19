@@ -30,7 +30,6 @@ namespace WorxlyServer.Controllers
                 LastName = userDto.LastName,
                 Username = userDto.Username,
                 Email = userDto.Email,
-                Password = userDto.Password,
             };
             user.UserType = userDto.UserTypeVal switch
             {
@@ -38,7 +37,7 @@ namespace WorxlyServer.Controllers
                 "User" => UserType.User,
                 "Worker" => UserType.Worker
             };
-            user.PasswordHash = _passwordHasher.HashPassword(user, user.Password);
+            user.PasswordHash = _passwordHasher.HashPassword(user, userDto.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return Ok(user);
@@ -62,6 +61,20 @@ namespace WorxlyServer.Controllers
                 return Unauthorized();
             UserDTO userDTO = new UserDTO(user);
             return Ok(userDTO);
+        }
+
+        [HttpGet("GetUserDetails")]
+        public async Task<IActionResult> GetUserDetails(string? identifier, string password)
+        {
+            if (identifier == null)
+                return BadRequest();
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Username == identifier || u.Email == identifier);
+            if (user == null)
+                return NotFound();
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            if (verificationResult == PasswordVerificationResult.Failed)
+                return Unauthorized();
+            return Ok(user);
         }
     }
 }

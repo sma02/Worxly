@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Worxly.DTOs;
 using Worxly.ViewModels;
 
 namespace Worxly
@@ -20,6 +21,8 @@ namespace Worxly
         }
         public RoutingState Router { get; set; }
         public MainViewModel CurrentMainViewModel { get; set; }
+        public UserStore CurrentUser { get; set; }
+        public IUserAuth CurrentUserAuth { get; set; }
         //public string DataDirectory { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/Worxly/";
     }
 }

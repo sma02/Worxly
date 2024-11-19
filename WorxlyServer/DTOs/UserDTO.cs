@@ -15,7 +15,6 @@ namespace WorxlyServer.DTOs
         {
             Username = user.Username;
             Email = user.Email;
-            Password = user.Password;
             FirstName = user.FirstName;
             LastName = user.LastName;
             UserTypeVal = user.UserType.GetDisplayName();
