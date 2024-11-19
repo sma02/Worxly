@@ -47,7 +47,7 @@ namespace Worxly.ViewModels
         }
         public void ServiceButtonClick(Service service)
         {
-            Debug.WriteLine(service.Name);
+            Globals.Instance.Router.Navigate.Execute(new WorkerListViewModel(service));
         }
     }
 }

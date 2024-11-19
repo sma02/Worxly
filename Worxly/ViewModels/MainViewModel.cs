@@ -11,6 +11,6 @@ public class MainViewModel : ViewModelBase, IScreen
         Globals.Instance.CurrentMainViewModel = this;
         Globals.Instance.Router = Router;
 
-        Router.Navigate.Execute(new WorkerListViewModel());
+        Router.Navigate.Execute(new UserViewModel());
     }
 }
