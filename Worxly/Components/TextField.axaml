@@ -16,7 +16,8 @@
 						   FontSize="14"
 						   Margin="5 0 5 0"
 						   FontWeight="DemiBold"/>
-					<TextBox Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+					<TextBox x:Name="InnerTextbox"
+							 Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
 							 BorderThickness="0"
 							 CornerRadius="50"
 							 FontSize="14"

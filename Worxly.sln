@@ -16,6 +16,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worxly.iOS", "Worxly.iOS\Wo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorxlyServer", "WorxlyServer\WorxlyServer.csproj", "{903AE561-0734-485B-891E-0528557AB8B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worxly.Tests", "Worxly.Tests\Worxly.Tests.csproj", "{7538E160-1639-49C0-8276-B7EF9A284BA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A5C52A3-F264-4356-AB67-A3EAA6A69505} = {8A5C52A3-F264-4356-AB67-A3EAA6A69505}
+		{903AE561-0734-485B-891E-0528557AB8B2} = {903AE561-0734-485B-891E-0528557AB8B2}
+		{B9F72E69-F32F-432C-9560-1C55152795DB} = {B9F72E69-F32F-432C-9560-1C55152795DB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +53,10 @@ Global
 		{903AE561-0734-485B-891E-0528557AB8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{903AE561-0734-485B-891E-0528557AB8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{903AE561-0734-485B-891E-0528557AB8B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7538E160-1639-49C0-8276-B7EF9A284BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7538E160-1639-49C0-8276-B7EF9A284BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7538E160-1639-49C0-8276-B7EF9A284BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7538E160-1639-49C0-8276-B7EF9A284BA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

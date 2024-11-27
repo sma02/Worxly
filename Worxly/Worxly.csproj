@@ -8,7 +8,10 @@
   <PropertyGroup Label="Avalonia">
     <AvaloniaNameGeneratorDefaultFieldModifier>Public</AvaloniaNameGeneratorDefaultFieldModifier>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);TESTING</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>

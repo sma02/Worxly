@@ -1,0 +1,9 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 x:Class="Worxly.Tests.App">
+  <Application.Styles>
+	  <StyleInclude Source="avares://Worxly/Components/TextField.axaml"/>
+	  <StyleInclude Source="avares://Worxly/Components/SearchBox.axaml"/>
+    <FluentTheme />
+  </Application.Styles>
+</Application>
