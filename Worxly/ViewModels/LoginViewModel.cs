@@ -49,6 +49,7 @@ namespace Worxly.ViewModels
             if (Globals.Instance.CurrentUserAuth is null && res.Content != null)
             {
                 Globals.Instance.CurrentUser = res.Content;
+                Globals.Instance.CurrentUser.Password = password;
                 Globals.Instance.CurrentUserAuth = res.Content;
             }
             var content = res.Content;

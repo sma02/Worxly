@@ -31,11 +31,12 @@ public class MainViewModel : ViewModelBase, IScreen
         Globals.Instance.CurrentMainViewModel = this;
         Globals.Instance.Router = Router;
 
-        IsUserLoggedIn = false;
         DashboardButtonCommand = ReactiveCommand.CreateFromObservable(DashboardButtonClick);
         ServiceViewButtonCommand = ReactiveCommand.CreateFromObservable(ServiceViewButtonClick);
         ProfileButtonCommand = ReactiveCommand.CreateFromObservable(ProfileButtonClick);
 
+        Globals.Instance.UserStatusChanged += (s, e) => IsUserLoggedIn = Globals.Instance.CurrentUser != null;
+        IsUserLoggedIn = Globals.Instance.CurrentUser != null;
     }
     // navigation will be added when views will create
     public IObservable<IRoutableViewModel> DashboardButtonClick() => Globals.Instance.Router.Navigate.Execute();
