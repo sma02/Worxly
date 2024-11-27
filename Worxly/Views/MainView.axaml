@@ -20,6 +20,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="40"/>
 				<RowDefinition Height="*"/>
+				<RowDefinition Height="75"/>
 			</Grid.RowDefinitions>
 			<TextBlock Text="Worxly" FontWeight="Heavy" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 			<rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
@@ -29,6 +30,19 @@
 					<app:AppViewLocator />
 				</rxui:RoutedViewHost.ViewLocator>
 			</rxui:RoutedViewHost>
+			<Grid Grid.Row="2"
+				  Height="75"
+				  IsVisible="{Binding IsUserLoggedIn}"
+				  VerticalAlignment="Bottom">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Button Grid.Column="0" Content="Dashboard" Command="{Binding DashboardButtonCommand}" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="15 5 15 5" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+				<Button Grid.Column="1" Content="Services" Command="{Binding ServiceViewButtonCommand}" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="15 5 15 5" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+				<Button Grid.Column="2" Content="Profile" Command="{Binding ProfileButtonCommand}" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="15 5 15 5" Height="75" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+			</Grid>
 		</Grid>
 	</dialogHost:DialogHost>
 </UserControl>
