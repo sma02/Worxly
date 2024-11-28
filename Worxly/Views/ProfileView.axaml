@@ -69,8 +69,8 @@
 
 		<!-- Map Section -->
 		<map:MapControl
+			x:Name="mapControl"
 			Grid.Row="2"
-			Map="{Binding MapViewModel.Map}"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Height="400" />
