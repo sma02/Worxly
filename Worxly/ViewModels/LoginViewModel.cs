@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Refit;
 using Worxly.Api;
+using Worxly.DTOs;
 
 namespace Worxly.ViewModels
 {
@@ -62,7 +63,7 @@ namespace Worxly.ViewModels
             }
             else if (content.UserTypeVal == "User")
             {
-                Globals.Instance.Router.Navigate.Execute(new ServiceViewModel());
+                Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
             }
         }
     }

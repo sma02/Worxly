@@ -25,10 +25,10 @@ namespace Worxly
         }
         public RoutingState Router { get; set; }
         public MainViewModel CurrentMainViewModel { get; set; }
-        public UserStore userStore;
-        public UserStore CurrentUser { get=>userStore; set
+        public User user;
+        public User CurrentUser { get=>user; set
             {
-                userStore = value;
+                user = value;
                 AppConfig.Instance.User = value;
                 AppConfig.SaveConfig();
                 UserStatusChanged?.Invoke(this, EventArgs.Empty);

@@ -15,7 +15,7 @@ namespace Worxly.Helpers
         public static AppConfig Instance => _instance.Value;
         private static string basePath = Globals.Instance.DataDirectory;
         private static string filename = "appconfig.json";
-        public UserStore? User { get; set; }
+        public User? User { get; set; }
         public static AppConfig LoadConfig()
         {
             string basePath = Globals.Instance.DataDirectory;

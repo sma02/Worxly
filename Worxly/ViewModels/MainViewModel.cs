@@ -41,6 +41,6 @@ public class MainViewModel : ViewModelBase, IScreen
     // navigation will be added when views will create
     public IObservable<IRoutableViewModel> DashboardButtonClick() => Globals.Instance.Router.Navigate.Execute();
     public IObservable<IRoutableViewModel> ServiceViewButtonClick() => Globals.Instance.Router.Navigate.Execute();
-    public IObservable<IRoutableViewModel> ProfileButtonClick() => Globals.Instance.Router.Navigate.Execute();
+    public IObservable<IRoutableViewModel> ProfileButtonClick() => Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
 
 }
