@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Worxly.DTOs;
 using Worxly.Helpers;
 
@@ -12,6 +13,7 @@ namespace Worxly.ViewModels
 {
     public class ProfileViewModel : ViewModelBase
     {
+        public ICommand EditProfileCommand { get; }
         private User user;
         public User User
         {
@@ -32,6 +34,12 @@ namespace Worxly.ViewModels
         {
             User = user;
             MapViewModel = new MapHelper(69, 30);
+            EditProfileCommand = ReactiveCommand.Create(EditProfileClick);
+        }
+
+        public async void EditProfileClick()
+        {
+
         }
     }
 }
