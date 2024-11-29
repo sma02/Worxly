@@ -9,9 +9,9 @@ using Mapsui.Utilities;
 using ReactiveUI;
 using Worxly.DTOs;
 
-namespace Worxly.ViewModels
+namespace Worxly.Helpers
 {
-    public class MapViewModel : ReactiveObject
+    public class MapHelper : ReactiveObject
     {
         private Map _map;
         private MyLocationLayer? _myLocationLayer;
@@ -24,7 +24,7 @@ namespace Worxly.ViewModels
             private set => this.RaiseAndSetIfChanged(ref _map, value);
         }
 
-        public MapViewModel(int lon, int lan)
+        public MapHelper(int lon, int lan)
         {
             InitializeMapAsync(lon, lan);
         }

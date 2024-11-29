@@ -6,6 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Worxly.DTOs;
+using Worxly.Helpers;
 
 namespace Worxly.ViewModels
 {
@@ -17,8 +18,8 @@ namespace Worxly.ViewModels
             get => user;
             set => this.RaiseAndSetIfChanged(ref user, value);
         }
-        private MapViewModel mapViewModel;
-        public MapViewModel MapViewModel
+        private MapHelper mapViewModel;
+        public MapHelper MapViewModel
         {
             get => mapViewModel;
             set => this.RaiseAndSetIfChanged(ref mapViewModel, value);
@@ -30,7 +31,7 @@ namespace Worxly.ViewModels
         public ProfileViewModel(User user)
         {
             User = user;
-            MapViewModel = new MapViewModel(69, 30);
+            MapViewModel = new MapHelper(69, 30);
         }
     }
 }

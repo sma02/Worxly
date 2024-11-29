@@ -12,7 +12,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="150"/>
 			<RowDefinition Height="*"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="200"/>
 		</Grid.RowDefinitions>
 		<!-- Profile Header -->
 		<Grid Grid.Row="0">
@@ -38,10 +38,10 @@
 			<!-- User Details -->
 			<StackPanel Grid.Column="1"
 						VerticalAlignment="Center">
-				<TextBlock Text="Binding FullName"
+				<TextBlock Text="{Binding FullName}"
 						   FontSize="20"
 						   FontWeight="Bold"/>
-				<TextBlock Text="Binding User.Username"
+				<TextBlock Text="{Binding User.Username}"
 						   FontSize="18"/>
 			</StackPanel>
 		</Grid>
@@ -55,15 +55,20 @@
 					Text="{Binding User.Email}"
 					ReadOnly="True"/>
 				<components:TextField
-                        Watermark="Phone"
-                        LabelText="Phone Number"
-                        Text="Binding User.PhoneNumber"
-                        ReadOnly="True"/>
+                    Watermark="Phone"
+                    LabelText="Phone Number"
+                    Text="Binding User.PhoneNumber"
+                    ReadOnly="True"/>
 				<components:TextField
 					Watermark="Address"
 					LabelText="Address"
 					Text="Binding User.Address"
 					ReadOnly="True"/>
+				<Button
+					Content="Edit Profile"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"/>
+				<!--Command="{Binding EditProfileCommand}"-->
 			</StackPanel>
 		</ScrollViewer>
 
@@ -73,6 +78,6 @@
 			Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Height="400" />
+            Height="200" />
 	</Grid>
 </UserControl>
