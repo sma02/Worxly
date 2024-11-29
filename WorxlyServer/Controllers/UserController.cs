@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using WorxlyServer.Data;
 using WorxlyServer.DTOs;
 using WorxlyServer.Models;
+using static WorxlyServer.DTOs.WorkDTO;
 
 namespace WorxlyServer.Controllers
 {
@@ -75,6 +77,41 @@ namespace WorxlyServer.Controllers
             if (verificationResult == PasswordVerificationResult.Failed)
                 return Unauthorized();
             return Ok(user);
+        }
+
+        [HttpGet("GetUserWorks")]
+        public async Task<IActionResult> GetUserWorks(string identifier)
+        {
+            var user = await _context.Users
+            .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.Provider)
+            .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.Service)
+            .FirstOrDefaultAsync(u => u.Username == identifier);
+
+            if (user == null)
+                return NotFound();
+
+            var works = user.WorkSubscriptions?.Select(w => new WorkDto
+            {
+                Provider = new WorkerDTO
+                {
+                    FirstName = w.Provider.FirstName,
+                    LastName = w.Provider.LastName,
+                    Bio = w.Provider.Bio,
+                },
+                Service = new ServiceDTO
+                {
+                    Name = w.Service.Name,
+                    Description = w.Service.Description,
+                },
+                WorkStatuses = w.WorkStatuses != null && w.WorkStatuses.Any()
+                ? w.WorkStatuses.Last().WorkStatusType.ToString()
+                : WorkStatusType.Unknown.ToString(),
+                CreatedOn = w.CreatedOn
+            }).ToList() ?? new List<WorkDto>();
+
+            return Ok(works);
         }
     }
 }

@@ -39,7 +39,7 @@ public class MainViewModel : ViewModelBase, IScreen
         IsUserLoggedIn = Globals.Instance.CurrentUser != null;
     }
     // navigation will be added when views will create
-    public IObservable<IRoutableViewModel> DashboardButtonClick() => Globals.Instance.Router.Navigate.Execute();
+    public IObservable<IRoutableViewModel> DashboardButtonClick() => Globals.Instance.Router.Navigate.Execute(new DashboardViewModel(Globals.Instance.CurrentUser));
     public IObservable<IRoutableViewModel> ServiceViewButtonClick() => Globals.Instance.Router.Navigate.Execute();
     public IObservable<IRoutableViewModel> ProfileButtonClick() => Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
 

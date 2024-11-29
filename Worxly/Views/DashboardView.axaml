@@ -2,10 +2,95 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:vm="clr-namespace:Worxly.ViewModels"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
              x:Class="Worxly.Views.DashboardView"
-			 x:DataType="vm:DashboardViewModel"
-             xmlns:components="using:Worxly.Components">
-  Welcome to Avalonia!
+			 xmlns:components="using:Worxly.Components"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+			 xmlns:dtos="clr-namespace:Worxly.DTOs"
+			 x:DataType="vm:DashboardViewModel">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
+		<ScrollViewer Grid.Row="1">
+			<ItemsRepeater ItemsSource="{Binding Subscriptions, Mode=TwoWay}">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate DataType="dtos:Work">
+						<Button Height="150"
+								HorizontalAlignment="Stretch"
+								CornerRadius="10"
+								Background="{DynamicResource PrimaryColor}"
+								Command="{Binding $parent[ItemsRepeater].((vm:DashboardViewModel)DataContext).SubscriptionButtonCommand}"
+								CommandParameter="{Binding}">
+							<Button.Styles>
+								<Style Selector="Button:pressed">
+									<Setter Property="RenderTransform" Value="scale(1)"/>
+								</Style>
+							</Button.Styles>
+							<DockPanel Margin="10">
+								<Border HorizontalAlignment="Left"
+										Margin="5"
+										BorderThickness="2"
+										Background="{DynamicResource SecondaryColor}">
+								</Border>
+
+								<!-- Service Details -->
+								<StackPanel Margin="10 3">
+									<!-- Service Name -->
+									<TextBlock Text="{Binding Service.Name}"
+											   FontSize="18"
+											   FontWeight="Bold"
+											   Foreground="White"/>
+									<!-- Service Description -->
+									<TextBlock Text="{Binding Service.Description}"
+											   FontSize="14"
+											   Foreground="LightGray"
+											   TextWrapping="Wrap"/>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
+										<!-- Worker Info -->
+										<StackPanel Grid.Column="0">
+											<TextBlock Text="Provider:"
+													   FontSize="14"
+													   FontWeight="Bold"
+													   Foreground="White"
+													   Margin="0,10,0,0"/>
+											<TextBlock Text="{Binding Provider.FirstName} {Binding Provider.LastName}"
+													   FontSize="14"
+													   Foreground="LightGray"/>
+											<TextBlock Text="{Binding Provider.Bio}"
+													   FontSize="12"
+													   Foreground="Gray"
+													   TextWrapping="Wrap"/>
+										</StackPanel>
+
+										<!-- Subscription Status and Date -->
+										<StackPanel Grid.Column="1">
+											<TextBlock Text="Status:"
+													   FontSize="14"
+													   FontWeight="Bold"
+													   Foreground="White"
+													   Margin="0,10,0,0"/>
+											<TextBlock Text="{Binding WorkStatuses}"
+													   FontSize="14"
+													   Foreground="LightGray"/>
+											<TextBlock Text="{Binding CreatedOn, StringFormat='Date: {0:MM/dd/yyyy}'}"
+													   FontSize="12"
+													   Foreground="Gray"/>
+										</StackPanel>
+									</Grid>
+
+								</StackPanel>
+							</DockPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
+	</Grid>
 </UserControl>
