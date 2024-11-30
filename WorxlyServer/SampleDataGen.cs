@@ -90,12 +90,33 @@ namespace WorxlyServer
                         Comment = "Great worker",
                     },
                 }
-            };;
+            };
             worker.PasswordHash = passwordHasher.HashPassword(worker, "passWorker");
 
-        context.Users.Add(user);
-        context.Workers.Add(worker);
-        context.SaveChanges();
+            Work work1 = new Work()
+            {
+                Provider = worker,
+                Service = worker.Services.Last(),
+                WorkStatuses = new List<WorkStatus>()
+                {
+                    new WorkStatus()
+                    {
+                        WorkStatusType = WorkStatusType.Completed,
+                        CreatedOn = DateTime.Now,
+                    }
+                },
+                CreatedOn = DateTime.Now,
+            };
+
+            user.WorkSubscriptions = new List<Work>()
+            {
+                work1
+            };
+
+            context.Users.Add(user);
+            context.Workers.Add(worker);
+            context.Works.Add(work1);
+            context.SaveChanges();
         }
     }
 }
