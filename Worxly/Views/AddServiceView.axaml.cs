@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using System.Collections.Generic;
 using System.IO;
 using Worxly.ViewModels;
 
@@ -19,32 +20,23 @@ public partial class AddServiceView : ReactiveUserControl<AddServiceViewModel>
     }
     private async void OpenFileButton_Clicked(object sender, RoutedEventArgs args)
     {
-        // Get the top-level window
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        if (topLevel != null)
+        var dialog = new OpenFileDialog
         {
-            // Start async operation to open the file dialog
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-            {
-                Title = "Select a Picture",
-                AllowMultiple = false,
-                FileTypeFilter = new[]
-                {
-                        FilePickerFileTypes.ImageAll
-                    }
-            });
+            Title = "Select an Image",
+            Filters = new List<FileDialogFilter> { new FileDialogFilter { Name = "Image Files", Extensions = { "jpg", "png", "jpeg" } } }
+        };
 
-            if (files.Count >= 1)
-            {
-                // Get the first selected file and open it for reading
-                var selectedFile = files[0];
-                await using var stream = await selectedFile.OpenReadAsync();
+        var result = await dialog.ShowAsync((Window)this.VisualRoot);
 
-                // Optionally, you can process the file here, e.g., display it or store it
-                using var reader = new StreamReader(stream);
-                var fileContent = await reader.ReadToEndAsync();
-            }
+        if (result != null && result.Length > 0)
+        {
+            string filePath = result[0];
+
+            // Convert image to base64
+            string base64Image = Worxly.Helpers.ImageHelper.ConvertImageToBase64(filePath);
+
+            // Store in ViewModel
+            //((AddServiceViewModel)this.DataContext).Imageurl = base64Image;
         }
     }
 }

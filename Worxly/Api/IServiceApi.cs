@@ -15,5 +15,12 @@ namespace Worxly.Api
       
         [Get("/api/Services")]
         Task<List<Service>> GetServices();
+
+        [Put("/api/Services/{id}")]
+        Task<Service> PutService(int id,Service serviceDto);
+
+        [Delete("/api/Services/{id}")]
+        Task<Service> DeleteService(int id);
+
     }
 }
