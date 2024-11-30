@@ -20,9 +20,13 @@ public partial class ProfileView : ReactiveUserControl<ProfileViewModel>
 
     private void ProfileView_DataContextChanged(object? sender, System.EventArgs e)
     {
-        var mapControl = this.FindControl<MapControl>("mapControl");
+        
         ProfileViewModel? profileViewModel = (ProfileViewModel?)DataContext;
-        if (profileViewModel != null && mapControl != null)
-            mapControl.Map = profileViewModel.MapViewModel.Map;
+        profileViewModel.LocationAcquired += (s, e) =>
+        {
+            var mapControl = this.FindControl<MapControl>("mapControl");
+            if (profileViewModel != null && mapControl != null)
+                mapControl.Map = profileViewModel.MapHelper.Map;
+        };
     }
 }

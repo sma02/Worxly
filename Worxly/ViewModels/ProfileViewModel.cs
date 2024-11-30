@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Worxly.ViewModels
 {
     public class ProfileViewModel : ViewModelBase
     {
+        public EventHandler LocationAcquired;
         public ICommand EditProfileCommand { get; }
         private User user;
         public User User
@@ -20,11 +22,10 @@ namespace Worxly.ViewModels
             get => user;
             set => this.RaiseAndSetIfChanged(ref user, value);
         }
-        private MapHelper mapViewModel;
-        public MapHelper MapViewModel
+        private MapHelper mapHelper = new MapHelper();
+        public MapHelper MapHelper
         {
-            get => mapViewModel;
-            set => this.RaiseAndSetIfChanged(ref mapViewModel, value);
+            get => mapHelper;
         }
 
         public string FullName => $"Wali Ahmad";
@@ -33,12 +34,15 @@ namespace Worxly.ViewModels
         public ProfileViewModel(User user)
         {
             User = user;
-            MapViewModel = new MapHelper(69, 30);
-            EditProfileCommand = ReactiveCommand.Create(EditProfileClick);
+            FetchLocation();
         }
-
-        public async void EditProfileClick()
+        public async void FetchLocation()
         {
+            if (Globals.Instance.GeolocationApi is null)
+                throw new NotSupportedException("Geolocation API is not supported on this platform.");
+            (double?, double?) val = await Globals.Instance.GeolocationApi.GetLocation();
+            await MapHelper.InitializeMapAsync((double)val.Item1, (double)val.Item2);
+            LocationAcquired?.Invoke(this, EventArgs.Empty);
 
         }
     }

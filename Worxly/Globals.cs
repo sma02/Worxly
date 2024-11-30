@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Worxly.DeviceApi;
 using Worxly.DTOs;
 using Worxly.Helpers;
 using Worxly.ViewModels;
@@ -37,6 +38,7 @@ namespace Worxly
         public IUserAuth CurrentUserAuth { get; set; }
         public string DataDirectory { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/Worxly/";
    
+        public IGeolocationApi GeolocationApi { get; set; }
         private Globals()
         {
             if (!Directory.Exists(DataDirectory))

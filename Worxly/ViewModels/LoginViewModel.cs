@@ -37,14 +37,17 @@ namespace Worxly.ViewModels
             LoginCommand = ReactiveCommand.Create(LoginButtonClick);
             SignUpCommand = ReactiveCommand.Create(SignUpButtonClick);
         }
-        public void SignUpButtonClick()
+        public async void SignUpButtonClick()
         {
-            Globals.Instance.Router.Navigate.Execute(new SignUpViewModel());
+           Globals.Instance.Router.Navigate.Execute(new SignUpViewModel());
         }
         public async void LoginButtonClick()
         {
-            var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var res = await userApi.Authenticate(Email, Password);
+            Debug.WriteLine(Properties.Resources.DefaultHost);
+            try
+            {
+                var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
+                var res = await userApi.Authenticate(Email, Password);
             if (res.StatusCode != System.Net.HttpStatusCode.OK)
                 return;
             if (Globals.Instance.CurrentUserAuth is null && res.Content != null)
@@ -64,6 +67,15 @@ namespace Worxly.ViewModels
             else if (content.UserTypeVal == "User")
             {
                 Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
+            }
+            }
+            catch (Exception ex) 
+            {
+                ConfirmationDialog dialog = new ConfirmationDialog()
+                { Message = ex.Message,
+                    PositiveText="OK",
+                    NegativeButtonVisibility=false};
+                var res = (bool)await dialog.Show();
             }
         }
     }

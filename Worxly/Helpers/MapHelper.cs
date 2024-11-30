@@ -11,7 +11,7 @@ using Worxly.DTOs;
 
 namespace Worxly.Helpers
 {
-    public class MapHelper : ReactiveObject
+    public class MapHelper
     {
         private Map _map;
         private MyLocationLayer? _myLocationLayer;
@@ -21,18 +21,11 @@ namespace Worxly.Helpers
         public Map Map
         {
             get => _map;
-            private set => this.RaiseAndSetIfChanged(ref _map, value);
+            set => _map = value;
         }
-
-        public MapHelper(int lon, int lan)
-        {
-            InitializeMapAsync(lon, lan);
-        }
-
-        private async Task InitializeMapAsync(int lon, int lan)
+        public async Task InitializeMapAsync(double lat, double lon)
         {
             var map = new Map();
-
             // Initialize MyLocationLayer
             _myLocationLayer?.Dispose();
             _myLocationLayer = new MyLocationLayer(map)
@@ -45,16 +38,16 @@ namespace Worxly.Helpers
             map.Layers.Add(_myLocationLayer);
 
             // Set map center and zoom
-            var centerOfLocation = new MPoint(lan, lon); // Replace with desired coordinates
+            var centerOfLocation = new MPoint(lon, lat); // Replace with desired coordinates
             var sphericalMercatorCoordinate = SphericalMercator
                 .FromLonLat(centerOfLocation.X, centerOfLocation.Y)
                 .ToMPoint();
 
-            map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[9]);
+            map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[16]);
             _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
 
             // Generate sample points for simulation
-            _points = CreateSamplePoints(centerOfLocation);
+            //_points = CreateSamplePoints(centerOfLocation);
 
             // Subscribe to map interaction (e.g., click events)
             map.Info += OnMapInfoEvent;

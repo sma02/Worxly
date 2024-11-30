@@ -36,14 +36,19 @@ namespace Worxly.ViewModels
 
         public ServiceViewModel()
         {
+            Init();
+        }
+        public async void Init()
+        {
             var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            var servicesList = serviceApi.GetServices().Result;
-            sourceCache.AddOrUpdate(servicesList);
+            var servicesList = await serviceApi.GetServices();
+            sourceCache.AddOrUpdate(servicesList.Content);
             sourceCache.Connect()
                 .Filter(x => x.Name.ToLower().Contains(searchText.ToLower())).Bind(out services)
                 .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))
                 .Subscribe();
             AddButtonCommand = ReactiveCommand.Create(AddButtonClick);
+
         }
         public void AddButtonClick()
         {

@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Avalonia.Threading;
+using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 using Refit;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Worxly.Api;
@@ -23,27 +25,35 @@ namespace Worxly.ViewModels
         private SourceCache<Service, int> sourceCache = new(x => x.Id);
         private string searchText = "";
         private ReadOnlyObservableCollection<Service> services;
-
         public string SearchText
         {
             get => searchText;
             set
             {
-                searchText = value;
+                this.RaiseAndSetIfChanged(ref searchText, value);
                 sourceCache.Refresh();
             }
         }
 
         public UserViewModel()
         {
-            var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            var servicesList = serviceApi.GetServices().Result;
-            sourceCache.AddOrUpdate(servicesList);
-            sourceCache.Connect()
-                .Filter(x => x.Name.ToLower().Contains(searchText.ToLower())).Bind(out services)
-                .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))
-                .Subscribe();
+            Init();
             ServiceButtonCommand = ReactiveCommand.Create<Service>(ServiceButtonClick);
+        }
+        public async Task Init()
+        {
+            var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
+            var servicesList = await serviceApi.GetServices();
+            if (servicesList.StatusCode != System.Net.HttpStatusCode.OK)
+                return;
+            var content = servicesList.Content;
+            sourceCache.AddOrUpdate(content);
+            sourceCache.Connect()
+                    .Filter(x => x.Name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase)).Bind(out services)
+                    .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))
+                    .Subscribe();
+
+            this.RaisePropertyChanged(nameof(Services));
         }
         public void ServiceButtonClick(Service service)
         {
