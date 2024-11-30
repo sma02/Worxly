@@ -94,6 +94,7 @@ namespace WorxlyServer.Controllers
 
             var works = user.WorkSubscriptions?.Select(w => new WorkDto
             {
+                Id = w.Id,
                 Provider = new WorkerDTO
                 {
                     FirstName = w.Provider.FirstName,

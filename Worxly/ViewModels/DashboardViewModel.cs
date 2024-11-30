@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Worxly.Api;
 using Worxly.DTOs;
+using System.Diagnostics;
 
 namespace Worxly.ViewModels
 {
@@ -52,13 +53,12 @@ namespace Worxly.ViewModels
         }
         public async void LoadSubscriptions(User user)
         {
-            //var subscriptionsList = WorksList();
-
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
             var res = await userApi.GetUserWorks(user.Username);
 
-            var subscriptionsList = res.Select(dto => new Work
+            var subscriptionsList = res.Select((dto) => new Work
             {
+                Id = dto.Id,
                 Provider = new Worker
                 {
                     FirstName = dto.Provider.FirstName,
@@ -74,51 +74,21 @@ namespace Worxly.ViewModels
                 CreatedOn = dto.CreatedOn
             }).ToList();
 
+            sourceCache.Clear(); // Clear existing cache
             sourceCache.AddOrUpdate(subscriptionsList);
+
             sourceCache.Connect()
-                .Filter(x => x.Service.Name.ToLower().Contains(searchText.ToLower())).Bind(out subscriptions)
+                .Filter(x => string.IsNullOrEmpty(searchText) ||
+                    x.Service.Name.ToLower().Contains(searchText.ToLower()) ||
+                    x.Service.Description.ToLower().Contains(searchText.ToLower()) ||
+                    x.Provider.FirstName.ToLower().Contains(searchText.ToLower()) ||
+                    x.Provider.LastName.ToLower().Contains(searchText.ToLower())
+                )
+                .Bind(out subscriptions)
                 .Sort(SortExpressionComparer<Work>.Ascending(t => t.Service.Name))
                 .Subscribe();
-        }
 
-        public List<Work> WorksList()
-        {
-            List<Work> works = new List<Work>
-            {
-                new Work
-                {
-                    Provider = new Worker
-                    {
-                        FirstName = "John",
-                        LastName = "Doe",
-                        Bio = "Expert in plumbing",
-                    },
-                    Service = new Service
-                    {
-                        Name = "Plumbing",
-                        Description = "Fixing leaks and installations",
-                    },
-                    WorkStatuses = "Completed",
-                    CreatedOn = DateTime.Now.AddDays(-3)
-                },
-                new Work
-                {
-                    Provider = new Worker
-                    {
-                        FirstName = "Jane",
-                        LastName = "Smith",
-                        Bio = "Skilled carpenter",
-                    },
-                    Service = new Service
-                    {
-                        Name = "Carpentry",
-                        Description = "Building and fixing wooden structures",
-                    },
-                    WorkStatuses = "In Progress",
-                    CreatedOn = DateTime.Now.AddDays(-1)
-                }
-            };
-            return works;
+            this.RaisePropertyChanged(nameof(Subscriptions));
         }
     }
 }
