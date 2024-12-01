@@ -11,7 +11,7 @@ namespace Worxly.Api
     public interface IServiceApi
     {
         [Post("/api/Services")]
-        Task<Service> PostService(Service serviceDto);
+        Task<ApiResponse<Service>> PostService(Service serviceDto);
       
         [Get("/api/Services")]
         Task<List<Service>> GetServices();
@@ -21,6 +21,5 @@ namespace Worxly.Api
 
         [Delete("/api/Services/{id}")]
         Task<Service> DeleteService(int id);
-
     }
 }

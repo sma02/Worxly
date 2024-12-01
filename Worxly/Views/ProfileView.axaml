@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:map="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
+             x:Class="Worxly.Views.ProfileView"
+			 x:DataType="vm:ProfileViewModel"
+             xmlns:components="using:Worxly.Components">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="150"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="200"/>
+		</Grid.RowDefinitions>
+		<!-- Profile Header -->
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<!-- Profile Picture -->
+			<Border
+				Grid.Column="0"
+				Width="100"
+				Height="100"
+				CornerRadius="50"
+				HorizontalAlignment="Left"
+				BorderThickness="2"
+				Background="{DynamicResource SecondaryColor}"
+				Margin="15 0 0 0">
+				<Image
+					   Source="{Binding ProfileImageUrl}" Width="50"/>
+			</Border>
+
+			<!-- User Details -->
+			<StackPanel Grid.Column="1"
+						VerticalAlignment="Center">
+				<TextBlock Text="{Binding FullName}"
+						   FontSize="20"
+						   FontWeight="Bold"/>
+				<TextBlock Text="{Binding User.Username}"
+						   FontSize="18"/>
+			</StackPanel>
+		</Grid>
+
+		<!-- Profile Details -->
+		<ScrollViewer Grid.Row="1">
+			<StackPanel Spacing="10" Margin="15">
+				<components:TextField
+					Watermark="Email"
+					LabelText="Email"
+					Text="{Binding User.Email}"
+					ReadOnly="True"/>
+				<components:TextField
+                    Watermark="Phone"
+                    LabelText="Phone Number"
+                    Text="Binding User.PhoneNumber"
+                    ReadOnly="True"/>
+				<components:TextField
+					Watermark="Address"
+					LabelText="Address"
+					Text="Binding User.Address"
+					ReadOnly="True"/>
+				<Button
+					Content="Edit Profile"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"/>
+				<!--Command="{Binding EditProfileCommand}"-->
+			</StackPanel>
+		</ScrollViewer>
+
+		<!-- Map Section -->
+		<map:MapControl
+			x:Name="mapControl"
+			Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Height="200" />
+	</Grid>
+</UserControl>
