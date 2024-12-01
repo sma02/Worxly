@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:components="using:Worxly.Components"
+			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+			 xmlns:dtos="clr-namespace:Worxly.DTOs"
+			 x:DataType="vm:WorkerListViewModel"
+			 x:Class="Worxly.Views.WorkerListView">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
+		<ScrollViewer Grid.Row="1">
+			<ItemsRepeater ItemsSource="{Binding Workers, Mode=TwoWay}">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate DataType="dtos:Worker">
+						<Button Height="80"
+								HorizontalAlignment="Stretch"
+								CornerRadius="10"
+								Background="{DynamicResource PrimaryColor}"
+								Command="{Binding $parent[ItemsRepeater].((vm:WorkerListViewModel)DataContext).WorkerButtonCommand}"
+								CommandParameter="{Binding}">
+							<Button.Styles>
+								<Style Selector="Button:pressed">
+									<Setter Property="RenderTransform" Value="scale(1)" />
+								</Style>
+							</Button.Styles>
+							<DockPanel>
+								<Border HorizontalAlignment="Left"
+										BorderThickness="2"
+										Background="{DynamicResource SecondaryColor}">
+									<Image
+										   Source="{Binding ProfilePicture}" Width="50" />
+								</Border>
+								<Panel Margin="10 5">
+									<TextBlock Text="{Binding FirstName}"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Top"
+											   FontSize="20"
+											   Margin="0 0 10 0"/>
+									<TextBlock Text="{Binding Bio}"
+											   FontSize="16"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Center"
+											   Margin="0 0 5 0"/>
+									<StackPanel Orientation="Horizontal"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Bottom"
+												Margin="0,5,0,0">
+										<TextBlock Text="Rating: "
+												   FontSize="16"
+												   Foreground="{DynamicResource PrimaryTextColor}" />
+										<TextBlock FontSize="16"
+												   FontWeight="Bold"
+												   Foreground="{DynamicResource AccentColor}">
+											<Run Text="{Binding OverallRating}" />
+											<Run Text=" ★" />
+										</TextBlock>
+									</StackPanel>
+								</Panel>
+							</DockPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

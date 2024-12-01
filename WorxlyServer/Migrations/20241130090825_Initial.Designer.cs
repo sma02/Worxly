@@ -12,8 +12,8 @@ using WorxlyServer.Data;
 namespace WorxlyServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241129174101_AddServiceInWork")]
-    partial class AddServiceInWork
+    [Migration("20241130090825_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

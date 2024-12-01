@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorxlyServer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -201,6 +201,7 @@ namespace WorxlyServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProviderId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WhenDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true)
@@ -208,6 +209,12 @@ namespace WorxlyServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkRecords_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WorkRecords_Users_UserId",
                         column: x => x.UserId,
@@ -294,6 +301,11 @@ namespace WorxlyServer.Migrations
                 column: "ProviderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_WorkRecords_ServiceId",
+                table: "WorkRecords",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkRecords_UserId",
                 table: "WorkRecords",
                 column: "UserId");
@@ -314,9 +326,6 @@ namespace WorxlyServer.Migrations
                 name: "Ratings");
 
             migrationBuilder.DropTable(
-                name: "Services");
-
-            migrationBuilder.DropTable(
                 name: "WorkStatus");
 
             migrationBuilder.DropTable(
@@ -324,6 +333,9 @@ namespace WorxlyServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkRecords");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Workers");

@@ -13,63 +13,64 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
-		<ScrollViewer Grid.Row="1">
-			<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
-				<ItemsRepeater.ItemTemplate>
-					<DataTemplate DataType="dtos:Service">
-						<Button Height="60"
-							HorizontalAlignment="Stretch"
-							CornerRadius="10"
-							Background="{DynamicResource PrimaryColor}" >
-							<Button.Styles>
-								<Style Selector="Button:pressed">
-									<Setter Property="RenderTransform" Value="scale(1)"/>
-								</Style>
-							</Button.Styles>
-							<DockPanel>
-								<Border HorizontalAlignment="Left"
-										BorderThickness="2"
-										Background="{DynamicResource SecondaryColor}">
-									<Image
-										   Source="{Binding Image}" Width="50"/>
-								</Border>
-								<Panel Margin="10 3">
-									<TextBlock Text="{Binding Name}"
-											   HorizontalAlignment="Left"
-											   VerticalAlignment="Top"
-											   FontSize="20"/>
-									<TextBlock Text="{Binding Description}"
-											   FontSize="16"
-											   HorizontalAlignment="Left"
-											   VerticalAlignment="Bottom"/>
-								</Panel>
-							</DockPanel>
-						</Button>
-					</DataTemplate>
-				</ItemsRepeater.ItemTemplate>
-			</ItemsRepeater>
-		</ScrollViewer>
-		<Button Grid.Row="2" 
-			VerticalAlignment="Bottom"
-		HorizontalAlignment="Right"
-		CornerRadius="25"
-		Command="{Binding AddButtonCommand}"
-		Margin="30"
-		Width="50"
-		Height="50"
-		BorderThickness="0"
-		Padding="6"
-		Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
-		Background="{DynamicResource SecondaryColor}">
-			<Button.Styles>
-				<Style Selector="Button:pointerover /template/ ContentPresenter">
-					<Setter Property="Opacity" Value="0.9"/>
-					<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
-				</Style>
-			</Button.Styles>
-		</Button>
+		<Panel Grid.Row="1">
+			<ScrollViewer>
+				<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
+					<ItemsRepeater.ItemTemplate>
+						<DataTemplate DataType="dtos:Service">
+							<Button Height="60"
+								HorizontalAlignment="Stretch"
+								CornerRadius="10"
+								Background="{DynamicResource PrimaryColor}" >
+								<Button.Styles>
+									<Style Selector="Button:pressed">
+										<Setter Property="RenderTransform" Value="scale(1)"/>
+									</Style>
+								</Button.Styles>
+								<DockPanel>
+									<Border HorizontalAlignment="Left"
+											BorderThickness="2"
+											Background="{DynamicResource SecondaryColor}">
+										<Image
+											   Source="{Binding Image}" Width="50"/>
+									</Border>
+									<Panel Margin="10 3">
+										<TextBlock Text="{Binding Name}"
+												   HorizontalAlignment="Left"
+												   VerticalAlignment="Top"
+												   FontSize="20"/>
+										<TextBlock Text="{Binding Description}"
+												   FontSize="16"
+												   HorizontalAlignment="Left"
+												   VerticalAlignment="Bottom"/>
+									</Panel>
+								</DockPanel>
+							</Button>
+						</DataTemplate>
+					</ItemsRepeater.ItemTemplate>
+				</ItemsRepeater>
+			</ScrollViewer>
+			<Button
+				VerticalAlignment="Bottom"
+			HorizontalAlignment="Right"
+			CornerRadius="25"
+			Command="{Binding AddButtonCommand}"
+			Margin="30"
+			Width="50"
+			Height="50"
+			BorderThickness="0"
+			Padding="6"
+			Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
+			Background="{DynamicResource SecondaryColor}">
+				<Button.Styles>
+					<Style Selector="Button:pointerover /template/ ContentPresenter">
+						<Setter Property="Opacity" Value="0.9"/>
+						<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
+					</Style>
+				</Button.Styles>
+			</Button>
+		</Panel>
 	</Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Refit;
 using Worxly.Api;
+using Worxly.Helpers;
 using Worxly.ViewModels;
 using Worxly.Views;
 
@@ -19,6 +20,8 @@ public partial class App : Application
     {
         //var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
         //var users = userApi.GetUserAccounts().Result;
+        Globals.Instance.CurrentUser = AppConfig.Instance.User;
+        Globals.Instance.CurrentUserAuth = Globals.Instance.CurrentUser;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow

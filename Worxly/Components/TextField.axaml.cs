@@ -13,7 +13,8 @@ namespace Worxly.Components
 
         public static readonly StyledProperty<string> TextProperty =
             AvaloniaProperty.Register<TextField, string>(nameof(Text), defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
-
+        
+        public static readonly StyledProperty<bool> ReadOnlyProperty = AvaloniaProperty.Register<TextField, bool>(nameof(ReadOnly));
         public string LabelText
         {
             get => GetValue(LabelTextProperty);
@@ -30,6 +31,11 @@ namespace Worxly.Components
         {
             get => GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+        public bool ReadOnly
+        {
+            get => GetValue(ReadOnlyProperty);
+            set => SetValue(ReadOnlyProperty, value);
         }
     }
 }
