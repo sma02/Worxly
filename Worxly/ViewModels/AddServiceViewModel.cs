@@ -15,28 +15,37 @@ namespace Worxly.ViewModels
     public class AddServiceViewModel : ViewModelBase
     {
         private Service service = null!;
-     
+        private string currentImageFile;
+
         public ICommand AddServiceCommand { get; }
         public Service Service { get => service; set => this.RaiseAndSetIfChanged(ref service, value); }
-        
+        public string CurrentImageFile
+        {
+            get => currentImageFile; set
+            {
+                currentImageFile = value;
+                if (Service != null)
+                    Service.ImageFile = value;
+            }
+        }
         public AddServiceViewModel(Service? service = null)
         {
             EditMode = service != null;
             Service = service ?? new Service();
             AddServiceCommand = ReactiveCommand.Create(AddServiceClick);
         }
-        public void AddServiceClick()
+        public async void AddServiceClick()
         {
             var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
             if (EditMode)
             {
-                serviceApi.PutService(Service.Id, Service);
+                await serviceApi.PutService(Service.Id, Service);
                 //serviceApi.DeleteService(Service.Id);
                 
             }
             else
             {
-                var createdService = serviceApi.PostService(service).Result;
+                var createdService = await serviceApi.PostService(service);
             }
         }
 
