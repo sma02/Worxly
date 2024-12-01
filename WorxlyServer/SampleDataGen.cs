@@ -55,7 +55,13 @@ namespace WorxlyServer
                 },
             };
 
-
+            Service service1 = new Service()
+            {
+                Name = "Installing Bulb and Fans",
+                Description = "I will install bulbs and fans for you",
+                Image = "bulb_fan.jpg",
+                CreatedOn = DateTime.Now
+            };
             Worker worker = new Worker()
             {
                 Username = "worker",
@@ -93,6 +99,11 @@ namespace WorxlyServer
             };
             worker.PasswordHash = passwordHasher.HashPassword(worker, "passWorker");
 
+
+        context.Users.Add(user);
+        context.Workers.Add(worker);
+        context.Service.Add(service1);
+        context.SaveChanges();
             Work work1 = new Work()
             {
                 Provider = worker,

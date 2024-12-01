@@ -30,7 +30,6 @@ public class MainViewModel : ViewModelBase, IScreen
     {
         Globals.Instance.CurrentMainViewModel = this;
         Globals.Instance.Router = Router;
-
         DashboardButtonCommand = ReactiveCommand.CreateFromObservable(DashboardButtonClick);
         ServiceViewButtonCommand = ReactiveCommand.CreateFromObservable(ServiceViewButtonClick);
         ProfileButtonCommand = ReactiveCommand.CreateFromObservable(ProfileButtonClick);

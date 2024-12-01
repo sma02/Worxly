@@ -6,6 +6,7 @@
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:components="using:Worxly.Components"
 			 xmlns:vm="clr-namespace:Worxly.ViewModels"
+			 xmlns:material="using:Material.Icons.Avalonia"
 			 xmlns:dtos="clr-namespace:Worxly.DTOs"
 			 x:DataType="vm:ServiceViewModel"
              x:Class="Worxly.Views.ServiceView">
@@ -15,62 +16,75 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<components:SearchBox Grid.Row="0" VerticalAlignment="Top" Watermark="Search here..." Text="{Binding SearchText}"/>
-		<Panel Grid.Row="1">
-			<ScrollViewer>
-				<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
-					<ItemsRepeater.ItemTemplate>
-						<DataTemplate DataType="dtos:Service">
-							<Button Height="60"
-								HorizontalAlignment="Stretch"
-								CornerRadius="10"
-								Background="{DynamicResource PrimaryColor}" >
-								<Button.Styles>
-									<Style Selector="Button:pressed">
-										<Setter Property="RenderTransform" Value="scale(1)"/>
-									</Style>
-								</Button.Styles>
-								<DockPanel>
-									<Border HorizontalAlignment="Left"
-											BorderThickness="2"
-											Background="{DynamicResource SecondaryColor}">
-										<Image
-											   Source="{Binding Image}" Width="50"/>
-									</Border>
-									<Panel Margin="10 3">
-										<TextBlock Text="{Binding Name}"
-												   HorizontalAlignment="Left"
-												   VerticalAlignment="Top"
-												   FontSize="20"/>
-										<TextBlock Text="{Binding Description}"
-												   FontSize="16"
-												   HorizontalAlignment="Left"
-												   VerticalAlignment="Bottom"/>
-									</Panel>
-								</DockPanel>
-							</Button>
-						</DataTemplate>
-					</ItemsRepeater.ItemTemplate>
-				</ItemsRepeater>
-			</ScrollViewer>
-			<Button
-				VerticalAlignment="Bottom"
-			HorizontalAlignment="Right"
-			CornerRadius="25"
-			Command="{Binding AddButtonCommand}"
-			Margin="30"
-			Width="50"
-			Height="50"
-			BorderThickness="0"
-			Padding="6"
-			Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
-			Background="{DynamicResource SecondaryColor}">
-				<Button.Styles>
-					<Style Selector="Button:pointerover /template/ ContentPresenter">
-						<Setter Property="Opacity" Value="0.9"/>
-						<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
-					</Style>
-				</Button.Styles>
-			</Button>
-		</Panel>
+		<ScrollViewer Grid.Row="1">
+			<ItemsRepeater ItemsSource="{Binding Services,Mode=TwoWay}">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate DataType="dtos:Service">
+						<Border CornerRadius="10" Background="{DynamicResource PrimaryColor}" Margin="5">
+							<Grid Height="80">
+								<!-- Define Columns -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<!-- For Image/Placeholder -->
+									<ColumnDefinition Width="*" />
+									<!-- For Text -->
+									<ColumnDefinition Width="Auto" />
+									<!-- For Buttons -->
+								</Grid.ColumnDefinitions>
+
+								<!-- Image Placeholder -->
+								<Border Grid.Column="0" HorizontalAlignment="Left" BorderThickness="2" Background="{DynamicResource SecondaryColor}" Margin="5">
+									<!--<Image Source="{Binding Image}" Width="50"/>-->
+								</Border>
+
+								<!-- Service Details -->
+								<StackPanel Grid.Column="1" Margin="10 3">
+									<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Foreground="White"/>
+									<TextBlock Text="{Binding Description}" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="White"/>
+								</StackPanel>
+
+								<!-- Edit/Delete Buttons -->
+								<StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+									<!-- Edit Button -->
+									<Button Height="40" Width="40" Margin="5"
+											Background="{DynamicResource SecondaryColor}"
+											Command="{Binding $parent[ItemsRepeater].((vm:ServiceViewModel)DataContext).EditServiceCommand}"
+											CommandParameter="{Binding}">
+										<material:MaterialIcon Kind="Edit"/>
+									</Button>
+
+									<!-- Delete Button -->
+									<Button Height="40" Width="40" Margin="5"
+											Background="{DynamicResource SecondaryColor}"
+											Command="{Binding $parent[ItemsRepeater].((vm:ServiceViewModel)DataContext).DeleteServiceCommand}"
+											CommandParameter="{Binding}">
+										<material:MaterialIcon Kind="Delete"/>
+									</Button>
+								</StackPanel>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
+		<Button Grid.Row="2" 
+			VerticalAlignment="Bottom"
+		HorizontalAlignment="Right"
+		CornerRadius="25"
+		Command="{Binding AddButtonCommand}"
+		Margin="30"
+		Width="50"
+		Height="50"
+		BorderThickness="0"
+		Padding="6"
+		Content= "{materialIcons:MaterialIconExt Kind=Plus, Size=24}"
+		Background="{DynamicResource SecondaryColor}">
+			<Button.Styles>
+				<Style Selector="Button:pointerover /template/ ContentPresenter">
+					<Setter Property="Opacity" Value="0.9"/>
+					<Setter Property="Background" Value="{DynamicResource SecondaryColor}"/>
+				</Style>
+			</Button.Styles>
+		</Button>
 	</Grid>
 </UserControl>
