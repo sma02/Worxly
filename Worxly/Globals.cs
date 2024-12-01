@@ -36,6 +36,7 @@ namespace Worxly
             }
         }
         public IUserAuth CurrentUserAuth { get; set; }
+        public bool UserPresistence { get; set; } = false;
         public string DataDirectory { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/Worxly/";
    
         public IGeolocationApi GeolocationApi { get; set; }

@@ -21,7 +21,7 @@
 		<components:TextField Grid.Row="1" Watermark="Enter your email" LabelText="Email" Text="{Binding Email}" VerticalAlignment="Center" Margin="10 0 10 0"/>
 		<components:TextField Grid.Row="2" Watermark="Enter your password" LabelText="Password" Text="{Binding Password}" VerticalAlignment="Center" Margin="10 0 10 0"/>
 		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-			<CheckBox Grid.Column="2" Content="Remember Me" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 0"/>
+			<CheckBox Grid.Column="2" Content="Remember Me" IsChecked="{Binding RememberMe}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 0"/>
 			<Button Content="Login" Grid.Row="3" Command="{Binding LoginCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>
 		</StackPanel>
 		<Button Content="Sign Up" Grid.Row="4"  Command="{Binding SignUpCommand}" FontSize="16" Padding="15 5 15 5" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 10 0"/>

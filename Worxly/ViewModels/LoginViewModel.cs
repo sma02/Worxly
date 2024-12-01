@@ -19,7 +19,16 @@ namespace Worxly.ViewModels
     {
         private string email = string.Empty;
         private string password = string.Empty;
-        public bool rememberMe = false;
+        private bool rememberMe = false;
+        public bool RememberMe
+        {
+            get => Globals.Instance.UserPresistence;
+            set
+            {
+                Globals.Instance.UserPresistence = value;
+                this.RaiseAndSetIfChanged(ref rememberMe, value);
+            }
+        }
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
         public string Email
@@ -57,17 +66,17 @@ namespace Worxly.ViewModels
                 Globals.Instance.CurrentUserAuth = res.Content;
             }
             var content = res.Content;
-            if (content.UserTypeVal == "Admin")
-            {
+            //if (content.UserTypeVal == "Admin")
+            //{
 
-            }
-            else if (content.UserTypeVal == "Worker")
-            {
-            }
-            else if (content.UserTypeVal == "User")
-            {
-                Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
-            }
+            //}
+            //else if (content.UserTypeVal == "Worker")
+            //{
+            //}
+            //else if (content.UserTypeVal == "User")
+            //{
+            //    Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
+            //}
             }
             catch (Exception ex) 
             {

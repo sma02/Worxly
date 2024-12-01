@@ -49,6 +49,7 @@ namespace Worxly.ViewModels
                 .Filter(x => x.Name.ToLower().Contains(searchText.ToLower())).Bind(out services)
                 .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))
                 .Subscribe();
+            this.RaisePropertyChanged(nameof(Services));
             AddButtonCommand = ReactiveCommand.Create(AddButtonClick);
             EditServiceCommand = ReactiveCommand.Create<Service>(EditServiceClick);
             DeleteServiceCommand = ReactiveCommand.Create<Service>(DeleteServiceClick);

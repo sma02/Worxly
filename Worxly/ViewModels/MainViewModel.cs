@@ -19,7 +19,7 @@ public class MainViewModel : ViewModelBase, IScreen
         set
         {
             if (value == true)
-                Globals.Instance.Router.Navigate.Execute(new UserViewModel());
+                Globals.Instance.Router.Navigate.Execute(new DashboardViewModel(Globals.Instance.CurrentUser));
             else if (value == false)
                 Globals.Instance.Router.Navigate.Execute(new LoginViewModel());
             this.RaiseAndSetIfChanged(ref isUserLoggedIn, value);
@@ -39,7 +39,17 @@ public class MainViewModel : ViewModelBase, IScreen
     }
     // navigation will be added when views will create
     public IObservable<IRoutableViewModel> DashboardButtonClick() => Globals.Instance.Router.Navigate.Execute(new DashboardViewModel(Globals.Instance.CurrentUser));
-    public IObservable<IRoutableViewModel> ServiceViewButtonClick() => Globals.Instance.Router.Navigate.Execute(new UserViewModel());
+    public IObservable<IRoutableViewModel> ServiceViewButtonClick()
+    {
+        var userType = Globals.Instance.CurrentUser.UserTypeVal;
+        if (userType == "User")
+            return Globals.Instance.Router.Navigate.Execute(new UserViewModel());
+        else if (userType == "Worker")
+            return Globals.Instance.Router.Navigate.Execute(new ServiceViewModel());
+        else
+            throw new Exception("Invalid User type");
+    }
+
     public IObservable<IRoutableViewModel> ProfileButtonClick() => Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
 
 }

@@ -31,10 +31,15 @@ namespace Worxly.Helpers
         }
         public static void SaveConfig()
         {
-
+            User? user = null;
+            if( Globals.Instance.UserPresistence)
+             user = Instance.User;
+            var data = new {
+                User = user
+            };
             string basePath = Globals.Instance.DataDirectory;
             string path = Path.Join(basePath, filename);
-            File.WriteAllText(path, JsonSerializer.Serialize(Instance));
+            File.WriteAllText(path, JsonSerializer.Serialize(data));
         }
     }
 }

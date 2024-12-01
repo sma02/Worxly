@@ -23,6 +23,6 @@ namespace Worxly.Api
         Task<ApiResponse<User>> GetUserDetails(string? identifier, string password);
 
         [Get("/api/user/GetUserWorks")]
-        Task<List<Work>> GetUserWorks(string identifier);
+        Task<ApiResponse<List<Work>>> GetUserWorks(string identifier);
     }
 }

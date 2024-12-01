@@ -14,12 +14,12 @@ namespace Worxly.Api
         Task<ApiResponse<Service>> PostService(Service serviceDto);
       
         [Get("/api/Services")]
-        Task<List<Service>> GetServices();
+        Task<ApiResponse<List<Service>>> GetServices();
 
         [Put("/api/Services/{id}")]
-        Task<Service> PutService(int id,Service serviceDto);
+        Task<ApiResponse<Service>> PutService(int id,Service serviceDto);
 
         [Delete("/api/Services/{id}")]
-        Task<Service> DeleteService(int id);
+        Task<ApiResponse<Service>> DeleteService(int id);
     }
 }

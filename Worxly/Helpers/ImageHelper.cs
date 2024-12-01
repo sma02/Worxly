@@ -30,22 +30,21 @@ namespace Worxly.Helpers
             }
         }
 
-        public static async Task<System.Drawing.Bitmap?> LoadFromWeb(string url)
+        public static async Task<Avalonia.Media.Imaging.Bitmap?> LoadFromWeb(string url)
         {
-            if (string.IsNullOrEmpty(url) || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                return new System.Drawing.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
-
+            if (url == null)
+                return new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
             using var httpClient = new HttpClient();
             try
             {
                 var response = await httpClient.GetAsync(url).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
                 var data = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                return new System.Drawing.Bitmap(new MemoryStream(data));
+                return new Avalonia.Media.Imaging.Bitmap(new MemoryStream(data));
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                return new System.Drawing.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
+                return new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
             }
         }
 
