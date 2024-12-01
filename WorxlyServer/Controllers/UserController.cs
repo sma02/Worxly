@@ -100,6 +100,7 @@ namespace WorxlyServer.Controllers
                     FirstName = w.Provider.FirstName,
                     LastName = w.Provider.LastName,
                     Bio = w.Provider.Bio,
+                    OverallRating = w.Provider.OverallRating,
                 },
                 Service = new ServiceDTO
                 {

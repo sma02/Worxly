@@ -34,45 +34,23 @@ namespace Worxly.ViewModels
         }
         public WorkerListViewModel(Service service)
         {
-            //var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            //var servicesList = serviceApi.GetServices().Result;
-            var workersList = new ObservableCollection<Worker>()
-            {
-                new Worker ()
-                {
-                    Id = 1,
-                    FirstName = "Jon",
-                    LastName = "Doe",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-                new Worker ()
-                {
-                    Id = 2,
-                    FirstName = "Jane",
-                    LastName = "Doe",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-                new Worker ()
-                {
-                    Id = 3,
-                    FirstName = "John",
-                    LastName = "Smith",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-            };
-
-            sourceCache.AddOrUpdate(workersList);
+            int serviceId = service?.Id ?? throw new Exception("Service is null");
+            Init(serviceId);
+            WorkerButtonCommand = ReactiveCommand.Create<Worker>(WorkerButtonClick);
+        }
+        public async Task Init(int serviceId)
+        {
+            var workerApi = RestService.For<IWorkerApi>(Properties.Resources.DefaultHost);
+            var workersList = await workerApi.GetWorkersByService(serviceId);
+            if (workersList.StatusCode != System.Net.HttpStatusCode.OK)
+                return;
+            var content = workersList.Content;
+            sourceCache.AddOrUpdate(content);
             sourceCache.Connect()
                 .Filter(x => x.FirstName.ToLower().Contains(searchText.ToLower())).Bind(out workers)
                 .Sort(SortExpressionComparer<Worker>.Ascending(t => t.FirstName))
                 .Subscribe();
-            WorkerButtonCommand = ReactiveCommand.Create<Worker>(WorkerButtonClick);
+            this.RaisePropertyChanged(nameof(Workers));
         }
         public void WorkerButtonClick(Worker worker)
         {
