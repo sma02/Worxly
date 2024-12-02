@@ -92,7 +92,7 @@ namespace WorxlyServer.Controllers
             if (user == null)
                 return NotFound();
 
-            var works = user.WorkSubscriptions?.Select(w => new WorkDto
+            var works = user.WorkSubscriptions?.Select(w => new WorkDTO
             {
                 Id = w.Id,
                 Provider = new WorkerDTO
@@ -111,7 +111,7 @@ namespace WorxlyServer.Controllers
                 ? w.WorkStatuses.Last().WorkStatusType.ToString()
                 : WorkStatusType.Unknown.ToString(),
                 CreatedOn = w.CreatedOn
-            }).ToList() ?? new List<WorkDto>();
+            }).ToList() ?? new List<WorkDTO>();
 
             return Ok(works);
         }

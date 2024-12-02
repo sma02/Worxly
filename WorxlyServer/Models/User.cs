@@ -16,7 +16,7 @@ namespace WorxlyServer.Models
         public string? LastName { get; set; }
         public string? ProfilePicture { get; set; }
         public Address? Address { get; set; }
-        public IEnumerable<Work>? WorkSubscriptions { get; set; }
+        public List<Work>? WorkSubscriptions { get; set; }
         public string? Phone { get; set; }
         public string PasswordHash { get; set; } = null!;
         public DateTime CreatedOn { get; set; } = DateTime.Now;

@@ -23,6 +23,8 @@ namespace Worxly.ViewModels
         private string searchText = "";
         private ReadOnlyObservableCollection<Worker> workers;
 
+        private Service service;
+
         public string SearchText
         {
             get => searchText;
@@ -32,9 +34,10 @@ namespace Worxly.ViewModels
                 sourceCache.Refresh();
             }
         }
-        public WorkerListViewModel(Service service)
+        public WorkerListViewModel(Service s)
         {
-            int serviceId = service?.Id ?? throw new Exception("Service is null");
+            int serviceId = s?.Id ?? throw new Exception("Service is null");
+            service = s;
             Init(serviceId);
             WorkerButtonCommand = ReactiveCommand.Create<Worker>(WorkerButtonClick);
         }
@@ -52,9 +55,28 @@ namespace Worxly.ViewModels
                 .Subscribe();
             this.RaisePropertyChanged(nameof(Workers));
         }
-        public void WorkerButtonClick(Worker worker)
+        public async void WorkerButtonClick(Worker worker)
         {
-            Debug.WriteLine(worker.FirstName);
+            ConfirmationDialog dialog = new ConfirmationDialog()
+            {
+                Message = $"Are you sure you want to subscribe {worker.FirstName} for 500rs ?",
+                PositiveText = "Yes",
+                NegativeText = "No",
+                NegativeButtonVisibility = true
+            };
+            var res = (bool)await dialog.Show();
+            if (res)
+            {
+                var workerApi = RestService.For<IWorkerApi>(Properties.Resources.DefaultHost);
+                var work = new Work
+                {
+                    Provider = worker,
+                    Service = service,
+                    WorkStatuses = "Pending",
+                    CreatedOn = DateTime.Now
+                };
+                var workPosted = await workerApi.AddWorkInUser(work, Globals.Instance.CurrentUser.Username);
+            }
         }
     }
 }

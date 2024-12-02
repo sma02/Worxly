@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WorxlyServer.Data;
 using WorxlyServer.DTOs;
+using WorxlyServer.Models;
 
 namespace WorxlyServer.Controllers
 {
@@ -25,6 +26,44 @@ namespace WorxlyServer.Controllers
                 .Where(y => y.Services.Any(z => z.Id == serviceId))
                 .Select(w => new WorkerDTO(w)).ToListAsync() ?? new List<WorkerDTO>();
             return Ok(workerAccounts);
+        }
+
+        [HttpPost("AddWorkInUser")]
+        public async Task<IActionResult> AddWorkInUser([FromBody] WorkDTO workDto, string identifier)
+        {
+            if (ModelState.IsValid == false)
+                return BadRequest(ModelState);
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
+            if (user == null)
+                return NotFound();
+
+            var work = new Work()
+            {
+                Id = workDto.Id,
+                Provider = new Worker
+                {
+                    FirstName = workDto.Provider.FirstName,
+                    LastName = workDto.Provider.LastName,
+                    Bio = workDto.Provider.Bio,
+                },
+                Service = new Service
+                {
+                    Name = workDto.Service.Name,
+                    Description = workDto.Service.Description
+                },
+                WorkStatuses = new List<WorkStatus>()
+                {
+                    new WorkStatus(){ WorkStatusType = (WorkStatusType) Enum.Parse(typeof(WorkStatusType), workDto.WorkStatuses, true)}
+                },
+                CreatedOn = workDto.CreatedOn
+            };
+
+            _context.Works.Add(work);
+            user.WorkSubscriptions.Add(work);
+
+            await _context.SaveChangesAsync();
+            return Ok(work);
         }
     }
 }

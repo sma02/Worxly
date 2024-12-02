@@ -12,5 +12,8 @@ namespace Worxly.Api
     {
         [Get("/api/worker/GetWorkersByService")]
         Task<ApiResponse<List<Worker>>> GetWorkersByService(int serviceId);
+
+        [Post("/api/worker/AddWorkInUser")]
+        Task<ApiResponse<Work>> AddWorkInUser(Work workDto, string identifier);
     }
 }
