@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Worxly.DTOs
@@ -15,6 +16,7 @@ namespace Worxly.DTOs
         public string Phone { get; set; }
         public string Bio { get; set; }
         //public WorkerCategory? Category { get; set; }
+        [JsonPropertyName("overallRating")]
         public float OverallRating { get; set; }
     }
 }
