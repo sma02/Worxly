@@ -20,6 +20,8 @@ namespace Worxly.ViewModels
     {
         public ReadOnlyObservableCollection<Service> Services => services;
         public ReactiveCommand<Unit, Unit> AddButtonCommand { get; set; }
+        public ReactiveCommand<Service, Unit> EditServiceCommand { get; set; }
+        public ReactiveCommand<Service, Unit> DeleteServiceCommand { get; set; }
         private SourceCache<Service, int> sourceCache = new(x => x.Id);
         private string searchText = "";
         private ReadOnlyObservableCollection<Service> services;
@@ -36,18 +38,36 @@ namespace Worxly.ViewModels
 
         public ServiceViewModel()
         {
+            Init();
+        }
+        public async void Init()
+        {
             var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            var servicesList = serviceApi.GetServices().Result;
-            sourceCache.AddOrUpdate(servicesList);
+            var servicesList = await serviceApi.GetServices();
+            sourceCache.AddOrUpdate(servicesList.Content);
             sourceCache.Connect()
                 .Filter(x => x.Name.ToLower().Contains(searchText.ToLower())).Bind(out services)
                 .Sort(SortExpressionComparer<Service>.Ascending(t => t.Name))
                 .Subscribe();
+            this.RaisePropertyChanged(nameof(Services));
             AddButtonCommand = ReactiveCommand.Create(AddButtonClick);
+            EditServiceCommand = ReactiveCommand.Create<Service>(EditServiceClick);
+            DeleteServiceCommand = ReactiveCommand.Create<Service>(DeleteServiceClick);
         }
         public void AddButtonClick()
         {
-            throw new NotImplementedException();
+            Globals.Instance.Router.Navigate.Execute(new AddServiceViewModel());
+        }
+
+        public void EditServiceClick(Service s)
+        {
+            Globals.Instance.Router.Navigate.Execute(new AddServiceViewModel(s));
+        }
+        public void DeleteServiceClick(Service s)
+        {
+            var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
+            serviceApi.DeleteService(s.Id);
+            sourceCache.Remove(s.Id);
         }
     }
 }

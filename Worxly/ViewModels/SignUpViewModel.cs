@@ -59,10 +59,10 @@ namespace Worxly.ViewModels
         {
             SignUpCommand = ReactiveCommand.Create(SignUpButtonClick);
         }
-        public void SignUpButtonClick()
+        public async void SignUpButtonClick()
         {
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var user = new UserCreate
+            var user = new User
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -71,7 +71,7 @@ namespace Worxly.ViewModels
                 Password = Password,
                 UserTypeVal = IsCustomer ? "User" : "Worker"
             };
-            var createdUser = userApi.PostUserAccount(user).Result;
+            var createdUser = await userApi.PostUserAccount(user);
             Globals.Instance.Router.Navigate.Execute(new LoginViewModel());
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Worxly.DTOs
 {
-    public class UserStore : IUserAuth
+    public class User : IUserAuth
     {
         public required string Username { get; set; }
         public required string Email { get; set; }

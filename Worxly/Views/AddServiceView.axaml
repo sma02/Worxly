@@ -15,9 +15,9 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<components:TextField Grid.Row="0" Text="{Binding Name}" Watermark="Enter service name" LabelText="Title" VerticalAlignment="Center" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="0" Text="{Binding Service.Name}" Watermark="Enter service name" LabelText="Title" VerticalAlignment="Center" Margin="10 0 10 0"/>
 
-		<components:TextField Grid.Row="1" Watermark="Explain your service" Text="{Binding Description}" LabelText="Description" Margin="10 0 10 0"/>
+		<components:TextField Grid.Row="1" Watermark="Explain your service" Text="{Binding Service.Description}" LabelText="Description" Margin="10 0 10 0"/>
 
 		<StackPanel Grid.Row="2" MinHeight="50" MinWidth="100">
 			<Label Content="Upload File" FontSize="14" Margin="15 0 5 0" FontWeight="DemiBold"/>

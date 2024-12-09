@@ -14,13 +14,15 @@ namespace Worxly.Api
         //Task<List<User>> GetUserAccounts();
 
         [Post("/api/user")]
-        Task<ApiResponse<UserCreate>> PostUserAccount(UserCreate userDto);
+        Task<ApiResponse<User>> PostUserAccount(User userDto);
 
         [Get("/api/user/Auth")]
-        Task<ApiResponse<UserStore>> Authenticate(string? identifier, string password);
+        Task<ApiResponse<User>> Authenticate(string? identifier, string password);
 
         [Get("/api/user/GetUserDetails")]
-        Task<ApiResponse<UserCreate>> GetUserDetails(string? identifier, string password);
+        Task<ApiResponse<User>> GetUserDetails(string? identifier, string password);
 
+        [Get("/api/user/GetUserWorks")]
+        Task<ApiResponse<List<Work>>> GetUserWorks(string identifier);
     }
 }

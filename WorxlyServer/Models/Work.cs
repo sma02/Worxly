@@ -10,6 +10,7 @@ namespace WorxlyServer.Models
     {
         public int Id { get; set; }
         public Worker Provider { get; set; } = null!;
+        public Service Service { get; set; } = null!;
         public IEnumerable<WorkStatus>? WorkStatuses { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? WhenDeleted { get; set; }

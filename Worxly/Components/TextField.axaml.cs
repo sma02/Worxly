@@ -26,6 +26,8 @@ namespace Worxly.Components
             TextBox = e.NameScope.Find<TextBox>("InnerTextbox");
         }
 #endif
+        
+        public static readonly StyledProperty<bool> ReadOnlyProperty = AvaloniaProperty.Register<TextField, bool>(nameof(ReadOnly));
         public string LabelText
         {
             get => GetValue(LabelTextProperty);
@@ -42,6 +44,11 @@ namespace Worxly.Components
         {
             get => GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+        public bool ReadOnly
+        {
+            get => GetValue(ReadOnlyProperty);
+            set => SetValue(ReadOnlyProperty, value);
         }
     }
 }

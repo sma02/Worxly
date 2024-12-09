@@ -8,43 +8,38 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Worxly.Api;
 using Worxly.DTOs;
+using Worxly.Helpers;
 
 namespace Worxly.ViewModels
 {
     public class AddServiceViewModel : ViewModelBase
     {
-        private string name = string.Empty;
-        private string description = string.Empty;
-        private string imageurl = string.Empty;
+        private Service service = null!;
+     
         public ICommand AddServiceCommand { get; }
-
-
-        public string Name { 
-            get => name;
-            set => this.RaiseAndSetIfChanged(ref name, value); 
-        }
-        public string Description { 
-            get => description; 
-            set => this.RaiseAndSetIfChanged(ref description, value);
-        }
-        public string Imageurl { 
-            get => imageurl; 
-            set => this.RaiseAndSetIfChanged(ref imageurl, value);
-        }
-        public AddServiceViewModel()
+        public Service Service { get => service; set => this.RaiseAndSetIfChanged(ref service, value); }
+        
+        public AddServiceViewModel(Service? service = null)
         {
+            EditMode = service != null;
+            Service = service ?? new Service();
             AddServiceCommand = ReactiveCommand.Create(AddServiceClick);
         }
         public void AddServiceClick()
         {
-            var serviceApi= RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            var service = new Service
+            var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
+            if (EditMode)
             {
-                Name = name,
-                Description = description
-            };
-            var createdService = serviceApi.PostService(service).Result;
+                serviceApi.PutService(Service.Id, Service);
+                //serviceApi.DeleteService(Service.Id);
+                
+            }
+            else
+            {
+                var createdService = serviceApi.PostService(service).Result;
+            }
         }
 
     }
 }
+    

@@ -18,10 +18,10 @@ namespace Worxly.DTOs
 
         public string? ImageUrl
         {
-            get => imageUrl; 
+            get => imageUrl;
             set
             {
-                if(imageUrl == value) return;
+                if (imageUrl == value) return;
                 imageUrl = value;
                 OnPropertyChanged(nameof(ImageUrl));
                 LoadImage();
@@ -30,7 +30,7 @@ namespace Worxly.DTOs
         private Bitmap? image;
         public Bitmap? Image
         {
-            get => image; 
+            get => image;
             set
             {
                 image = value;

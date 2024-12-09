@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Refit;
 using Worxly.Api;
+using Worxly.DTOs;
 
 namespace Worxly.ViewModels
 {
@@ -18,7 +19,16 @@ namespace Worxly.ViewModels
     {
         private string email = string.Empty;
         private string password = string.Empty;
-        public bool rememberMe = false;
+        private bool rememberMe = false;
+        public bool RememberMe
+        {
+            get => Globals.Instance.UserPresistence;
+            set
+            {
+                Globals.Instance.UserPresistence = value;
+                this.RaiseAndSetIfChanged(ref rememberMe, value);
+            }
+        }
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
         public string Email
@@ -36,32 +46,45 @@ namespace Worxly.ViewModels
             LoginCommand = ReactiveCommand.Create(LoginButtonClick);
             SignUpCommand = ReactiveCommand.Create(SignUpButtonClick);
         }
-        public void SignUpButtonClick()
+        public async void SignUpButtonClick()
         {
-            Globals.Instance.Router.Navigate.Execute(new SignUpViewModel());
+           Globals.Instance.Router.Navigate.Execute(new SignUpViewModel());
         }
         public async void LoginButtonClick()
         {
-            var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var res = await userApi.Authenticate(Email, Password);
+            Debug.WriteLine(Properties.Resources.DefaultHost);
+            try
+            {
+                var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
+                var res = await userApi.Authenticate(Email, Password);
             if (res.StatusCode != System.Net.HttpStatusCode.OK)
                 return;
             if (Globals.Instance.CurrentUserAuth is null && res.Content != null)
             {
                 Globals.Instance.CurrentUser = res.Content;
+                Globals.Instance.CurrentUser.Password = password;
                 Globals.Instance.CurrentUserAuth = res.Content;
             }
             var content = res.Content;
-            if (content.UserTypeVal == "Admin")
-            {
+            //if (content.UserTypeVal == "Admin")
+            //{
 
+            //}
+            //else if (content.UserTypeVal == "Worker")
+            //{
+            //}
+            //else if (content.UserTypeVal == "User")
+            //{
+            //    Globals.Instance.Router.Navigate.Execute(new ProfileViewModel(Globals.Instance.CurrentUser));
+            //}
             }
-            else if (content.UserTypeVal == "Worker")
+            catch (Exception ex) 
             {
-            }
-            else if (content.UserTypeVal == "User")
-            {
-                Globals.Instance.Router.Navigate.Execute(new ServiceViewModel());
+                ConfirmationDialog dialog = new ConfirmationDialog()
+                { Message = ex.Message,
+                    PositiveText="OK",
+                    NegativeButtonVisibility=false};
+                var res = (bool)await dialog.Show();
             }
         }
     }

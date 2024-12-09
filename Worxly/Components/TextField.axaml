@@ -23,7 +23,8 @@
 							 FontSize="14"
 							 Watermark="{TemplateBinding Watermark}"
 							 FontWeight="ExtraLight"
-							 Background="{DynamicResource ControlColor}">
+							 Background="{DynamicResource ControlColor}"
+							 IsReadOnly="{TemplateBinding ReadOnly}">
 						<TextBox.Styles>
 							<Style Selector="Border">
 								<Setter Property="CornerRadius" Value="50"/>
