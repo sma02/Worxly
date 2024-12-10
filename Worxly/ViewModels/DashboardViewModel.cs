@@ -56,6 +56,12 @@ namespace Worxly.ViewModels
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
             var res = await userApi.GetUserWorks(user.Username);
             var content = res.Content;
+            if (user.UserTypeVal == "Worker")
+            {
+                res = await userApi.GetWorkerWorks(user.Username);
+                content = res.Content;
+            }
+
             var subscriptionsList = content.Select((dto) => new Work
             {
                 Id = dto.Id,

@@ -24,5 +24,8 @@ namespace Worxly.Api
 
         [Get("/api/user/GetUserWorks")]
         Task<ApiResponse<List<Work>>> GetUserWorks(string identifier);
+
+        [Get("/api/user/GetWorkerWorks")]
+        Task<ApiResponse<List<Work>>> GetWorkerWorks(string identifier);
     }
 }

@@ -79,6 +79,50 @@ namespace WorxlyServer.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetWorkerWorks")]
+        public async Task<IActionResult> GetWorkerWorks(string identifier)
+        {
+            // Fetch the worker's user details using the identifier
+            var worker = await _context.Users
+                .Include(u => u.WorkSubscriptions)
+                    .ThenInclude(w => w.Provider)
+                .Include(u => u.WorkSubscriptions)
+                    .ThenInclude(w => w.Service)
+                .FirstOrDefaultAsync(u => u.Username == identifier);
+
+            // Check if the worker exists
+            if (worker == null)
+                return NotFound("Worker not found");
+
+            // Filter subscriptions where the Provider ID matches the worker's ID
+            var works = worker.WorkSubscriptions?
+                .Where(subscription => subscription.Provider.Id == worker.Id)
+                .Select(w => new WorkDTO
+                {
+                    Id = w.Id,
+                    Provider = new WorkerDTO
+                    {
+                        FirstName = w.Provider.FirstName,
+                        LastName = w.Provider.LastName,
+                        Bio = w.Provider.Bio,
+                        OverallRating = w.Provider.OverallRating,
+                    },
+                    Service = new ServiceDTO
+                    {
+                        Name = w.Service.Name,
+                        Description = w.Service.Description,
+                    },
+                    WorkStatuses = w.WorkStatuses != null && w.WorkStatuses.Any()
+                        ? w.WorkStatuses.Last().WorkStatusType.ToString()
+                        : WorkStatusType.Unknown.ToString(),
+                    CreatedOn = w.CreatedOn
+                }).ToList() ?? new List<WorkDTO>();
+
+            return Ok(works);
+        }
+
+
+
         [HttpGet("GetUserWorks")]
         public async Task<IActionResult> GetUserWorks(string identifier)
         {
