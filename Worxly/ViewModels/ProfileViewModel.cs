@@ -35,6 +35,7 @@ namespace Worxly.ViewModels
         {
             User = user;
             FetchLocation();
+            EditProfileCommand = ReactiveCommand.Create(Logout);
         }
         public async void FetchLocation()
         {
@@ -51,6 +52,10 @@ namespace Worxly.ViewModels
             {
                 Debug.WriteLine(ex);
             }
+        }
+        public void Logout()
+        {
+            Globals.Instance.CurrentMainViewModel.IsUserLoggedIn = false;
         }
     }
 }

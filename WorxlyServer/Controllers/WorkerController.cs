@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WorxlyServer.Data;
@@ -31,37 +32,23 @@ namespace WorxlyServer.Controllers
         [HttpPost("AddWorkInUser")]
         public async Task<IActionResult> AddWorkInUser([FromBody] WorkDTO workDto, string identifier)
         {
-            if (ModelState.IsValid == false)
-                return BadRequest(ModelState);
-
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
+            var user = await _context.Users.Include(s=>s.WorkSubscriptions).FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
             if (user == null)
                 return NotFound();
-
+            var workStatus = new WorkStatus() { WorkStatusType = Enum.Parse<WorkStatusType>(workDto.WorkStatus) };
+            var worker = await _context.Workers.FirstOrDefaultAsync(x => x.Username == workDto.Provider.Username);
+            var service = await _context.Service.FirstOrDefaultAsync(x => x.Id == workDto.Service.Id);
             var work = new Work()
             {
-                Id = workDto.Id,
-                Provider = new Worker
-                {
-                    FirstName = workDto.Provider.FirstName,
-                    LastName = workDto.Provider.LastName,
-                    Bio = workDto.Provider.Bio,
-                },
-                Service = new Service
-                {
-                    Name = workDto.Service.Name,
-                    Description = workDto.Service.Description
-                },
-                WorkStatuses = new List<WorkStatus>()
-                {
-                    new WorkStatus(){ WorkStatusType = (WorkStatusType) Enum.Parse(typeof(WorkStatusType), workDto.WorkStatuses, true)}
-                },
-                CreatedOn = workDto.CreatedOn
+                Provider = worker,
+                Service = service,
+                WorkStatuses = [workStatus]
             };
-
+            if (user.WorkSubscriptions == null)
+                user.WorkSubscriptions = new List<Work>();
             _context.Works.Add(work);
             user.WorkSubscriptions.Add(work);
-
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
             return Ok(work);
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Worxly.DTOs
 {
-    public class Worker
+    public class Worker : User
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -17,6 +17,6 @@ namespace Worxly.DTOs
         public string Bio { get; set; }
         //public WorkerCategory? Category { get; set; }
         [JsonPropertyName("overallRating")]
-        public float OverallRating { get; set; }
+        public float? OverallRating { get; set; }
     }
 }

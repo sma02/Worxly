@@ -37,6 +37,8 @@ namespace Worxly.ViewModels
         public async void AddServiceClick()
         {
             var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
+            if(service.ImageFile==null)
+                service.ImageFile = "";
             if (EditMode)
             {
                 await serviceApi.PutService(Service.Id, Service);

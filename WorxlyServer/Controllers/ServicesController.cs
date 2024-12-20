@@ -49,15 +49,20 @@ namespace WorxlyServer.Controllers
 
         // PUT: api/Services/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutService(int id, Service service)
+        public async Task<IActionResult> PutService(int id, ServiceDTO service)
         {
             if (id != service.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(service).State = EntityState.Modified;
-
+            var serviceModified = new Service()
+            {
+                Id = service.Id,
+                Name = service.Name,
+                Description = service.Description,
+                Image = service.ImageFile
+            };
+            _context.Service.Update(serviceModified);
             try
             {
                 await _context.SaveChangesAsync();
