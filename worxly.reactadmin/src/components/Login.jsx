@@ -1,4 +1,5 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function Login() {
 
@@ -10,9 +11,8 @@ function Login() {
     );
 
     async function getUsers() {
-        const res = await fetch('api/User');
-        const users = await res?.json();
-        console.log(users);
+        const users = await axios.get('api/User');
+        console.log(users.data);
     }
 }
 
