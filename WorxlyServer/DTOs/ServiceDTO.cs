@@ -9,6 +9,7 @@ namespace WorxlyServer.DTOs
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public string ImageFile { get; set; }
         public ServiceDTO() { }
 
         public ServiceDTO(Service service)
@@ -16,7 +17,7 @@ namespace WorxlyServer.DTOs
             Id = service.Id;
             Name = service.Name;
             Description = service.Description!;
-            //ImageUrl = service.Image!;
+            ImageFile = service.Image;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Worxly.DeviceApi;
 using Worxly.DTOs;
+using Worxly.DTOs.Interfaces;
 using Worxly.Helpers;
 using Worxly.ViewModels;
 

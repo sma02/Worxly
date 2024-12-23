@@ -79,6 +79,54 @@ namespace WorxlyServer.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetWorkerWorks")]
+        public async Task<IActionResult> GetWorkerWorks(string identifier)
+        {
+            // Fetch the worker's user details using the identifier
+            var worker = await _context.Users
+            .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.Provider)
+            .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.Service)
+                .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.WorkStatuses)
+                .FirstOrDefaultAsync(u => u.Username == identifier);
+
+            // Check if the worker exists
+            if (worker == null)
+                return NotFound("Worker not found");
+            var DbWorks =  _context.Works.Include(x=>x.Service).Include(x=>x.WorkStatuses).ToList();
+            // Filter subscriptions where the Provider ID matches the worker's ID
+            var works = DbWorks
+                .Where(subscription => subscription.Provider.Id == worker.Id)
+                .Select(w =>
+                {
+                    var workStatusType = w.WorkStatuses?.FirstOrDefault()?.WorkStatusType;
+                    return new WorkDTO
+                    {
+                        Id = w.Id,
+                        Provider = new WorkerDTO
+                        {
+                            FirstName = w.Provider.FirstName,
+                            LastName = w.Provider.LastName,
+                            Bio = w.Provider.Bio,
+                            OverallRating = w.Provider.OverallRating,
+                        },
+                        Service = new ServiceDTO
+                        {
+                            Name = w.Service.Name,
+                            Description = w.Service.Description,
+                        },
+                        WorkStatus = workStatusType.ToString(),
+                        CreatedOn = w.CreatedOn
+                    };
+                }).ToList() ?? new List<WorkDTO>();
+
+            return Ok(works);
+        }
+
+
+
         [HttpGet("GetUserWorks")]
         public async Task<IActionResult> GetUserWorks(string identifier)
         {
@@ -87,30 +135,33 @@ namespace WorxlyServer.Controllers
                 .ThenInclude(w => w.Provider)
             .Include(u => u.WorkSubscriptions)
                 .ThenInclude(w => w.Service)
+                .Include(u => u.WorkSubscriptions)
+                .ThenInclude(w => w.WorkStatuses)
             .FirstOrDefaultAsync(u => u.Username == identifier);
-
+            Ok(user.WorkSubscriptions);
             if (user == null)
                 return NotFound();
-
-            var works = user.WorkSubscriptions?.Select(w => new WorkDTO
+            var works = user.WorkSubscriptions?.Select(w =>
             {
-                Id = w.Id,
-                Provider = new WorkerDTO
+                var workStatusType = w.WorkStatuses?.FirstOrDefault()?.WorkStatusType;
+                return new WorkDTO
                 {
-                    FirstName = w.Provider.FirstName,
-                    LastName = w.Provider.LastName,
-                    Bio = w.Provider.Bio,
-                    OverallRating = w.Provider.OverallRating,
-                },
-                Service = new ServiceDTO
-                {
-                    Name = w.Service.Name,
-                    Description = w.Service.Description,
-                },
-                WorkStatuses = w.WorkStatuses != null && w.WorkStatuses.Any()
-                ? w.WorkStatuses.Last().WorkStatusType.ToString()
-                : WorkStatusType.Unknown.ToString(),
-                CreatedOn = w.CreatedOn
+                    Id = w.Id,
+                    Provider = new WorkerDTO
+                    {
+                        FirstName = w.Provider.FirstName,
+                        LastName = w.Provider.LastName,
+                        Bio = w.Provider.Bio,
+                        OverallRating = w.Provider.OverallRating,
+                    },
+                    Service = new ServiceDTO
+                    {
+                        Name = w.Service.Name,
+                        Description = w.Service.Description,
+                    },
+                    WorkStatus = workStatusType?.ToString(),
+                    CreatedOn = w.CreatedOn
+                };
             }).ToList() ?? new List<WorkDTO>();
 
             return Ok(works);

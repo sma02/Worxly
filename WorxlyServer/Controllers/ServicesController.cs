@@ -24,15 +24,18 @@ namespace WorxlyServer.Controllers
 
         // GET: api/Services
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+        public async Task<ActionResult<IEnumerable<ServiceDTO>>> GetServices()
         {
             var serviceList = await _context.Service.ToListAsync();
-            return Ok(serviceList);
+            List<ServiceDTO> serviceDTOs = new List<ServiceDTO>();
+            foreach (var item in serviceList)
+                serviceDTOs.Add(new ServiceDTO(item));
+            return Ok(serviceDTOs);
         }
 
         // GET: api/Services/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Service>> GetService(int id)
+        public async Task<ActionResult<ServiceDTO>> GetService(int id)
         {
             var service = await _context.Service.FindAsync(id);
 
@@ -41,20 +44,25 @@ namespace WorxlyServer.Controllers
                 return NotFound();
             }
 
-            return service;
+            return new ServiceDTO(service);
         }
 
         // PUT: api/Services/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutService(int id, Service service)
+        public async Task<IActionResult> PutService(int id, ServiceDTO service)
         {
             if (id != service.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(service).State = EntityState.Modified;
-
+            var serviceModified = new Service()
+            {
+                Id = service.Id,
+                Name = service.Name,
+                Description = service.Description,
+                Image = service.ImageFile
+            };
+            _context.Service.Update(serviceModified);
             try
             {
                 await _context.SaveChangesAsync();
@@ -84,6 +92,7 @@ namespace WorxlyServer.Controllers
             {
                 Name = serviceDto.Name,
                 Description = serviceDto.Description,
+                Image = serviceDto.ImageFile,
             };
             _context.Service.Add(service);
             await _context.SaveChangesAsync();

@@ -54,23 +54,40 @@ namespace Worxly.ViewModels
         public async void LoadSubscriptions(User user)
         {
             var userApi = RestService.For<IUserApi>(Properties.Resources.DefaultHost);
-            var res = await userApi.GetUserWorks(user.Username);
-            var content = res.Content;
+            ApiResponse<List<Work>> res;
+            List<Work>? content = null;
+            if (user.UserTypeVal == "User")
+            {
+                 res = await userApi.GetUserWorks(user.Username);
+                 content = res.Content;
+            }
+            else if (user.UserTypeVal == "Worker")
+            {
+                res = await userApi.GetWorkerWorks(user.Username);
+                content = res.Content;
+            }
+            if (content == null)
+                return;
+
             var subscriptionsList = content.Select((dto) => new Work
             {
                 Id = dto.Id,
                 Provider = new Worker
                 {
+                    Username = dto.Provider.Username,
+                    Email = dto.Provider.Email,
                     FirstName = dto.Provider.FirstName,
                     LastName = dto.Provider.LastName,
                     Bio = dto.Provider.Bio,
+                    UserTypeVal = dto.Provider.UserTypeVal,
+                    Password = dto.Provider.Password,
                 },
                 Service = new Service
                 {
                     Name = dto.Service.Name,
                     Description = dto.Service.Description
                 },
-                WorkStatuses = dto.WorkStatuses,
+                WorkStatus = dto.WorkStatus,
                 CreatedOn = dto.CreatedOn
             }).ToList();
 

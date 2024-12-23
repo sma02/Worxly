@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Worxly.Api;
 using Worxly.DTOs;
+using Worxly.DTOs.Enums;
 
 namespace Worxly.ViewModels
 {
@@ -68,12 +69,13 @@ namespace Worxly.ViewModels
             if (res)
             {
                 var workerApi = RestService.For<IWorkerApi>(Properties.Resources.DefaultHost);
+                worker.Password = "";
+                service.ImageFile = "";
                 var work = new Work
                 {
                     Provider = worker,
                     Service = service,
-                    WorkStatuses = "Pending",
-                    CreatedOn = DateTime.Now
+                    WorkStatus = WorkStatusType.Underway.ToString(),
                 };
                 var workPosted = await workerApi.AddWorkInUser(work, Globals.Instance.CurrentUser.Username);
             }

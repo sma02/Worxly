@@ -6,8 +6,10 @@ using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Worxly.ViewModels;
+using static System.Net.WebRequestMethods;
 
 namespace Worxly.Views;
 
@@ -20,23 +22,18 @@ public partial class AddServiceView : ReactiveUserControl<AddServiceViewModel>
     }
     private async void OpenFileButton_Clicked(object sender, RoutedEventArgs args)
     {
-        var dialog = new OpenFileDialog
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Select an Image",
-            Filters = new List<FileDialogFilter> { new FileDialogFilter { Name = "Image Files", Extensions = { "jpg", "png", "jpeg" } } }
-        };
-
-        var result = await dialog.ShowAsync((Window)this.VisualRoot);
-
-        if (result != null && result.Length > 0)
+            Title = "Open Image file",
+            AllowMultiple = false,
+            FileTypeFilter = [FilePickerFileTypes.ImagePng, FilePickerFileTypes.ImageJpg]
+        });
+        if (files.Count > 0)
         {
-            string filePath = result[0];
-
-            // Convert image to base64
-            string base64Image = Worxly.Helpers.ImageHelper.ConvertImageToBase64(filePath);
-
-            // Store in ViewModel
-            //((AddServiceViewModel)this.DataContext).Imageurl = base64Image;
+            string image = await Helpers.ImageHelper.UploadImage(files[0]);
+            if (DataContext is not null)
+                ((AddServiceViewModel)DataContext).CurrentImageFile = image;
         }
     }
 }

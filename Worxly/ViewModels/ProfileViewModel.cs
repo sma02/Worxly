@@ -35,15 +35,27 @@ namespace Worxly.ViewModels
         {
             User = user;
             FetchLocation();
+            EditProfileCommand = ReactiveCommand.Create(Logout);
         }
         public async void FetchLocation()
         {
-            if (Globals.Instance.GeolocationApi is null)
-                throw new NotSupportedException("Geolocation API is not supported on this platform.");
-            (double?, double?) val = await Globals.Instance.GeolocationApi.GetLocation();
-            await MapHelper.InitializeMapAsync((double)val.Item1, (double)val.Item2);
-            LocationAcquired?.Invoke(this, EventArgs.Empty);
+            try
+            {
+                if (Globals.Instance.GeolocationApi is null)
+                    throw new NotSupportedException("Geolocation API is not supported on this platform.");
+                (double?, double?) val = await Globals.Instance.GeolocationApi.GetLocation();
+                await MapHelper.InitializeMapAsync((double)val.Item1, (double)val.Item2);
+                LocationAcquired?.Invoke(this, EventArgs.Empty);
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+        public void Logout()
+        {
+            Globals.Instance.CurrentMainViewModel.IsUserLoggedIn = false;
         }
     }
 }
