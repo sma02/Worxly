@@ -31,9 +31,6 @@ namespace WorxlyServer.Controllers
         [HttpPost("AddWorkInUser")]
         public async Task<IActionResult> AddWorkInUser([FromBody] WorkDTO workDto, string identifier)
         {
-            if (ModelState.IsValid == false)
-                return BadRequest(ModelState);
-
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
             if (user == null)
                 return NotFound();
