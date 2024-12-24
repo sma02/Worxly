@@ -57,18 +57,14 @@
 				<components:TextField
                     Watermark="Phone"
                     LabelText="Phone Number"
-                    Text="Binding User.PhoneNumber"
+                    Text="03370433034"
                     ReadOnly="True"/>
-				<components:TextField
-					Watermark="Address"
-					LabelText="Address"
-					Text="Binding User.Address"
-					ReadOnly="True"/>
 				<Button
-					Content="Edit Profile"
+					Content="Logout"
 					HorizontalAlignment="Center"
-					VerticalAlignment="Center"/>
-				<!--Command="{Binding EditProfileCommand}"-->
+					VerticalAlignment="Center"
+				Command="{Binding EditProfileCommand}"
+					/>
 			</StackPanel>
 		</ScrollViewer>
 

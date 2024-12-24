@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Worxly.Api;
 using Worxly.DTOs;
+using Worxly.DTOs.Enums;
 
 namespace Worxly.ViewModels
 {
@@ -23,6 +24,8 @@ namespace Worxly.ViewModels
         private string searchText = "";
         private ReadOnlyObservableCollection<Worker> workers;
 
+        private Service service;
+
         public string SearchText
         {
             get => searchText;
@@ -32,51 +35,50 @@ namespace Worxly.ViewModels
                 sourceCache.Refresh();
             }
         }
-        public WorkerListViewModel(Service service)
+        public WorkerListViewModel(Service s)
         {
-            //var serviceApi = RestService.For<IServiceApi>(Properties.Resources.DefaultHost);
-            //var servicesList = serviceApi.GetServices().Result;
-            var workersList = new ObservableCollection<Worker>()
-            {
-                new Worker ()
-                {
-                    Id = 1,
-                    FirstName = "Jon",
-                    LastName = "Doe",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-                new Worker ()
-                {
-                    Id = 2,
-                    FirstName = "Jane",
-                    LastName = "Doe",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-                new Worker ()
-                {
-                    Id = 3,
-                    FirstName = "John",
-                    LastName = "Smith",
-                    Phone = "123-456-7890",
-                    Bio = "I am a worker",
-                    OverallRating = 4.5f
-                },
-            };
-
-            sourceCache.AddOrUpdate(workersList);
+            int serviceId = s?.Id ?? throw new Exception("Service is null");
+            service = s;
+            Init(serviceId);
+            WorkerButtonCommand = ReactiveCommand.Create<Worker>(WorkerButtonClick);
+        }
+        public async Task Init(int serviceId)
+        {
+            var workerApi = RestService.For<IWorkerApi>(Properties.Resources.DefaultHost);
+            var workersList = await workerApi.GetWorkersByService(serviceId);
+            if (workersList.StatusCode != System.Net.HttpStatusCode.OK)
+                return;
+            var content = workersList.Content;
+            sourceCache.AddOrUpdate(content);
             sourceCache.Connect()
                 .Filter(x => x.FirstName.ToLower().Contains(searchText.ToLower())).Bind(out workers)
                 .Sort(SortExpressionComparer<Worker>.Ascending(t => t.FirstName))
                 .Subscribe();
-            WorkerButtonCommand = ReactiveCommand.Create<Worker>(WorkerButtonClick);
+            this.RaisePropertyChanged(nameof(Workers));
         }
-        public void WorkerButtonClick(Worker worker)
+        public async void WorkerButtonClick(Worker worker)
         {
-            Debug.WriteLine(worker.FirstName);
+            ConfirmationDialog dialog = new ConfirmationDialog()
+            {
+                Message = $"Are you sure you want to subscribe {worker.FirstName} for 500rs ?",
+                PositiveText = "Yes",
+                NegativeText = "No",
+                NegativeButtonVisibility = true
+            };
+            var res = (bool)await dialog.Show();
+            if (res)
+            {
+                var workerApi = RestService.For<IWorkerApi>(Properties.Resources.DefaultHost);
+                worker.Password = "";
+                service.ImageFile = "";
+                var work = new Work
+                {
+                    Provider = worker,
+                    Service = service,
+                    WorkStatus = WorkStatusType.Underway.ToString(),
+                };
+                var workPosted = await workerApi.AddWorkInUser(work, Globals.Instance.CurrentUser.Username);
+            }
         }
     }
 }

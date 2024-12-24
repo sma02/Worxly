@@ -8,33 +8,53 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using Avalonia.Platform.Storage;
+using Mapsui.Extensions;
+using Refit;
+using Worxly.Api;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Worxly.Helpers
 {
+    public class ImageResponse
+    {
+        [JsonPropertyName("filename")]
+        public string Filename { get; set; }
+    }
     public static class ImageHelper
     {
-        public static string ConvertImageToBase64(string _imagePath)
+        public static async Task<string> ConvertImageToBase64(IStorageFile file)
         {
             string _base64String = null;
 
-            using (System.Drawing.Image _image = System.Drawing.Image.FromFile(_imagePath))
-            {
-                using (MemoryStream _mStream = new MemoryStream())
-                {
-                    _image.Save(_mStream, _image.RawFormat);
-                    byte[] _imageBytes = _mStream.ToArray();
-                    _base64String = Convert.ToBase64String(_imageBytes);
+            var stream = await file.OpenReadAsync();
+            byte[] _imageBytes = stream.ToBytes();
+            _base64String = Convert.ToBase64String(_imageBytes);
 
-                    return "data:image/jpg;base64," + _base64String;
-                }
-            }
+            return "data:image/jpg;base64," + _base64String;
         }
-
+        public static async Task<string?> UploadImage(IStorageFile file)
+        {
+            var httpClient = new HttpClient();
+            string extension = Path.GetExtension(file.Path.LocalPath);
+            Refit.StreamPart stream = new StreamPart(await file.OpenReadAsync(),$"file{extension}");
+            var imageApi = RestService.For<IImageApi>(Properties.Resources.DefaultHost);
+            var res = await imageApi.UploadImage(stream);
+            if (res.Content is not null)
+            {
+                var imageFile = JsonSerializer.Deserialize<ImageResponse>(res.Content);
+                if (imageFile is not null)
+                    return imageFile.Filename;
+            }
+            return null;
+        }
         public static async Task<Avalonia.Media.Imaging.Bitmap?> LoadFromWeb(string url)
         {
             if (url == null)
                 return new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
-            using var httpClient = new HttpClient();
+            var httpClient = new HttpClient();
             try
             {
                 var response = await httpClient.GetAsync(url).ConfigureAwait(false);
@@ -47,6 +67,9 @@ namespace Worxly.Helpers
                 return new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://Worxly/Assets/avalonia-logo.ico")));
             }
         }
-
+        public static async Task<Avalonia.Media.Imaging.Bitmap?> LoadImageFromServer(string filename)
+        {
+            return await LoadFromWeb($"{Properties.Resources.DefaultHost}/api/image/{filename}");
+        }
     }
 }

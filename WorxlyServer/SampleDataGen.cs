@@ -98,12 +98,6 @@ namespace WorxlyServer
                 }
             };
             worker.PasswordHash = passwordHasher.HashPassword(worker, "passWorker");
-
-
-        context.Users.Add(user);
-        context.Workers.Add(worker);
-        context.Service.Add(service1);
-        context.SaveChanges();
             Work work1 = new Work()
             {
                 Provider = worker,

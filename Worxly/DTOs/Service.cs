@@ -14,16 +14,16 @@ namespace Worxly.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        private string? imageUrl;
+        private string? imageFile;
 
-        public string? ImageUrl
+        public string? ImageFile
         {
-            get => imageUrl;
+            get => imageFile;
             set
             {
-                if (imageUrl == value) return;
-                imageUrl = value;
-                OnPropertyChanged(nameof(ImageUrl));
+                if (imageFile == value) return;
+                imageFile = value;
+                OnPropertyChanged(nameof(imageFile));
                 LoadImage();
             }
         }
@@ -39,7 +39,7 @@ namespace Worxly.DTOs
         }
         public async void LoadImage()
         {
-            Image = await Helpers.ImageHelper.LoadFromWeb(ImageUrl);
+            Image = await Helpers.ImageHelper.LoadImageFromServer(ImageFile);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

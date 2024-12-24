@@ -76,7 +76,7 @@
 													   FontWeight="Bold"
 													   Foreground="White"
 													   Margin="0,10,0,0"/>
-											<TextBlock Text="{Binding WorkStatuses}"
+											<TextBlock Text="{Binding WorkStatus}"
 													   FontSize="14"
 													   Foreground="LightGray"/>
 											<TextBlock Text="{Binding CreatedOn, StringFormat='Date: {0:MM/dd/yyyy}'}"
