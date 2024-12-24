@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.scarx.worxly" android:versionCode="100">
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -8,5 +8,5 @@
 	<uses-feature android:name="android.hardware.location" android:required="false" />
 	<uses-feature android:name="android.hardware.location.gps" android:required="false" />
 	<uses-feature android:name="android.hardware.location.network" android:required="false" />
-	<application android:label="AvaloniaTest" android:icon="@drawable/Icon" android:usesCleartextTraffic="true" android:debuggable="true"/>
+	<application android:label="Worxly" android:icon="@drawable/Icon" android:usesCleartextTraffic="true" android:debuggable="true" />
 </manifest>

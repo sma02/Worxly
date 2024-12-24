@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Worxly</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        background: #0066cc;
+        color: white;
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        opacity: 0.8;
+      }
+
+      .main-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .logo {
+        font-size: 48px;
+        color: #0066cc;
+        margin-bottom: 30px;
+        animation: fadeInDown 1s ease;
+      }
+
+      .description {
+        color: #333;
+        line-height: 1.8;
+        margin-bottom: 40px;
+        animation: fadeIn 1.5s ease;
+        font-size: 20px;
+        font-weight: 300;
+      }
+
+      .download-btn {
+        display: inline-block;
+        padding: 18px 50px;
+        background: #0066cc;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 18px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: bounceIn 1s ease;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 102, 204, 0.2);
+      }
+
+      footer {
+        background: #003366;
+        color: white;
+        padding: 40px 0;
+        position: relative;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+      }
+
+      .footer-section {
+        flex: 1;
+        margin: 0 20px;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 20px;
+        font-size: 18px;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #ffffff99;
+        line-height: 1.6;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        margin-top: 40px;
+        border-top: 1px solid #ffffff33;
+      }
+
+      .wave {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230066cc" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        background-size: cover;
+        animation: waveAnimation 10s linear infinite;
+      }
+      .login-btn {
+        background: white;
+        color: #0066cc;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 30px;
+      }
+
+      .login-btn:hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        50% {
+          opacity: 0.9;
+          transform: scale(1.1);
+        }
+        80% {
+          opacity: 1;
+          transform: scale(0.89);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes waveAnimation {
+        0% {
+          background-position-x: 0;
+        }
+        100% {
+          background-position-x: 1440px;
+        }
+      }
+      .contact-section {
+        max-width: 800px;
+        margin: 120px auto 60px;
+        padding: 0 20px;
+      }
+
+      .contact-content {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .contact-form {
+        margin-top: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      .form-group textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: #0066cc;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .submit-btn:hover {
+        background: #0052a3;
+        transform: translateY(-2px);
+      }
+
+      .contact-info {
+        margin-top: 40px;
+        padding-top: 40px;
+        border-top: 1px solid #ddd;
+      }
+
+      .contact-info h3 {
+        color: #0066cc;
+        margin-bottom: 20px;
+      }
+
+      .contact-info p {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo-text" style="color: white; font-size: 24px">
+          Worxly
+        </div>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <button class="login-btn">Login</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="contact-section">
+      <div class="contact-content">
+        <h2>Contact Us</h2>
+        <p>
+          Have questions? We'd love to hear from you. Send us a message and
+          we'll respond as soon as possible.
+        </p>
+
+        <form
+          class="contact-form"
+          action="mailto:info@worxly.com"
+          method="post"
+          enctype="text/plain"
+        >
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <h3>Other Ways to Reach Us</h3>
+          <p>Email: info@worxly.com</p>
+          <p>Phone: +92 0333 1112228</p>
+          <p>Address: UET, Lahore, Pakistan</p>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Worxly</h3>
+          <p>Connecting skilled professionals with customers since 2024</p>
+          <p>Making service booking easier than ever</p>
+        </div>
+        <!-- <div class="footer-section">
+          <h3>Quick Links</h3>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Support</a>
+        </div> -->
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>Email: info@worxly.com</p>
+          <p>Phone: +92 0333 1112228</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Worxly. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
