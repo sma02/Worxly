@@ -61,7 +61,7 @@ namespace Worxly.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://127.0.0.1:5013.
+        ///   Looks up a localized string similar to https://worxlyserver.azurewebsites.net/.
         /// </summary>
         internal static string DefaultHost {
             get {
