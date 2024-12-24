@@ -32,7 +32,8 @@ namespace WorxlyServer.Controllers
         [HttpPost("AddWorkInUser")]
         public async Task<IActionResult> AddWorkInUser([FromBody] WorkDTO workDto, string identifier)
         {
-            var user = await _context.Users.Include(s=>s.WorkSubscriptions).FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == identifier || x.Email == identifier);
+
             if (user == null)
                 return NotFound();
             var workStatus = new WorkStatus() { WorkStatusType = Enum.Parse<WorkStatusType>(workDto.WorkStatus) };
